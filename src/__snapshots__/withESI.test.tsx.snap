@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`client-side 1`] = `
+<div>
+  <div>
+    Hello 
+    Kévin
+  </div>
+</div>
+`;
+
+exports[`client-side with serialized props 1`] = `
+<div>
+  <div>
+    Hello 
+    Anne
+  </div>
+</div>
+`;
+
+exports[`server-side 1`] = `
+<div
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "<esi:include onerror=\\"continue\\" src=\\"/_fragment?fragment=id&amp;props=%7B%22esi%22%3A%7B%22attrs%22%3A%7B%22onerror%22%3A%22continue%22%7D%7D%2C%22name%22%3A%22K%C3%A9vin%22%7D&amp;sign=91c4a79d0c2c0a313572c157b0f74013d0ca6165c9a035756c4c5661be1f755b\\" />",
+    }
+  }
+/>
+`;
