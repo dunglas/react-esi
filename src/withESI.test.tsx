@@ -24,6 +24,22 @@ test("client-side with serialized props", () => {
   expect(component).toMatchSnapshot();
 });
 
+test("client-side call getInitialProps", async () => {
+  let called = false;
+
+  const Component = (props: { name?: string }) => <div>Hello {props.name}</div>;
+  Component.getInitialProps = async () => {
+    called = true;
+    return { name: "Kévin" };
+  };
+
+  const ComponentESI = withESI(Component, "initial-props");
+
+  (global.process as any).browser = true;
+  renderer.create(<ComponentESI />);
+  expect(called).toBe(true);
+});
+
 test("server-side", () => {
   const DummyESI = withESI(Dummy, "id");
   expect(DummyESI.displayName).toBe("WithESI(Dummy)");
