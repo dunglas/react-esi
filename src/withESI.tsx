@@ -44,7 +44,7 @@ export default function withESI<P>(
       super(props);
       const { esi, ...childProps } = props;
       this.esi = esi || {};
-      this.state.childProps = childProps || {};
+      this.state.childProps = childProps;
 
       if (!(process as IWebpackProcess).browser) {
         return;

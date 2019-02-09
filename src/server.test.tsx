@@ -65,7 +65,7 @@ test("initial props", async () => {
       name: string;
     }
     const Component = (p: IPropsType) => <div>Hello {p.name}</div>;
-    Component.getInitialProps = (): object => {
+    Component.getInitialProps = async () => {
       return { name: "Anne" };
     };
 
