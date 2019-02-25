@@ -12,7 +12,7 @@ It's a very efficient way to improve the performance and the SEO of your website
 
 Because it is built on top of the [Edge Side Includes (ESI)](https://www.w3.org/TR/esi-lang) W3C specification, 
 React ESI natively supports most of the well-known cloud cache providers including [Cloudflare Workers](https://blog.cloudflare.com/edge-side-includes-with-cloudflare-workers/), [Akamai](https://www.akamai.com/us/en/support/esi.jsp) and [Fastly](https://docs.fastly.com/guides/performance-tuning/using-edge-side-includes).
-Of course, React ESI also supports the open source [Varnish cache server](https://varnish-cache.org/intro/index.html#intro) that you can use in your own infrastructure for free (configuration provided).
+Of course, React ESI also supports the open source [Varnish cache server](https://varnish-cache.org/intro/index.html#intro) that you can use in your own infrastructure for free ([configuration example](https://github.com/zeit/next.js/blob/canary/examples/with-react-esi/docker/varnish/default.vcl)).
 
 Also, React ESI allows to specify a different Time To Live (TTL) per React component and to generate the corresponding HTML asynchronously using a secure (signed) URL.
 The cache server fetches and stores in the cache all the needed fragments (the HTML corresponding to every React component), builds the final page and sends it to the browser.
@@ -23,7 +23,7 @@ React ESI also allows components to (re-)render client-side without any specific
 
 ## Examples
 
-* [Next.js and Varnish example](https://github.com/zeit/next.js/pull/6225)
+* [Next.js and Varnish example](https://github.com/zeit/next.js/blob/canary/examples/with-react-esi/)
 
 ## Install
 
