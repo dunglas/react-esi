@@ -211,7 +211,7 @@ If the cookies are expected (e.g.: Google Analytics or ad cookies), then you mus
 
 ## Design Considerations
 
-To allow the client-side app to reuse the props fetched or computed server-side, React ESI injects `<script>` tags containing the them in the ESI fragments.
+To allow the client-side app to reuse the props fetched or computed server-side, React ESI injects `<script>` tags containing them in the ESI fragments.
 After the assembling of the page by the cache server, these script tags end up mixed with the legit HTML.
 These tags are automatically removed from the DOM before the rendering phase.
 
