@@ -42,7 +42,7 @@ export default function withESI<P>(
       this.esi = esi || {};
       this.state.childProps = childProps;
 
-      if (typeof window.navigator === 'undefined') {
+      if (typeof navigator === 'undefined') {
         return;
       }
 
