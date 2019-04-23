@@ -8,10 +8,6 @@ declare global {
   }
 }
 
-interface IWebpackProcess extends NodeJS.Process {
-  browser?: boolean;
-}
-
 interface IWithESIProps {
   esi?: {
     attrs?: object;
@@ -46,7 +42,7 @@ export default function withESI<P>(
       this.esi = esi || {};
       this.state.childProps = childProps;
 
-      if (!(process as IWebpackProcess).browser) {
+      if (typeof window.navigator === 'undefined') {
         return;
       }
 
@@ -81,7 +77,7 @@ export default function withESI<P>(
     }
 
     public render() {
-      if ((process as IWebpackProcess).browser) {
+      if (typeof navigator !== 'undefined') {
         return (
           <div>
             <WrappedComponent {...this.state.childProps as P} />

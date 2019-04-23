@@ -9,7 +9,7 @@ test("client-side", () => {
   const DummyESI = withESI(Dummy, "id");
   expect(DummyESI.displayName).toBe("WithESI(Dummy)");
 
-  (global.process as any).browser = true;
+  (global as any).navigator = {};
   const component = renderer.create(<DummyESI name="Kévin" />);
   expect(component).toMatchSnapshot();
 });
@@ -18,7 +18,7 @@ test("client-side with serialized props", () => {
   const DummyESI = withESI(Dummy, "id");
   expect(DummyESI.displayName).toBe("WithESI(Dummy)");
 
-  (global.process as any).browser = true;
+  (global as any).navigator = {};
   ((global as any).__REACT_ESI__ as any) = { id: { name: "Anne" } };
   const component = renderer.create(<DummyESI />);
   expect(component).toMatchSnapshot();
@@ -35,7 +35,7 @@ test("client-side call getInitialProps", async () => {
 
   const ComponentESI = withESI(Component, "initial-props");
 
-  (global.process as any).browser = true;
+  (global as any).navigator = {};
   renderer.create(<ComponentESI />);
   expect(called).toBe(true);
 });
@@ -45,7 +45,7 @@ test("server-side", () => {
   expect(DummyESI.displayName).toBe("WithESI(Dummy)");
 
   process.env.REACT_ESI_SECRET = "dummy";
-  (global.process as any).browser = false;
+  delete (global as any).navigator;
   const component = renderer.create(
     <DummyESI esi={{ attrs: { onerror: "continue" } }} name="Kévin" />
   );
