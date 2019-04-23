@@ -1,4 +1,3 @@
-import express from "express";
 import React from "react";
 import renderer from "react-test-renderer";
 import withESI from "./withESI";
