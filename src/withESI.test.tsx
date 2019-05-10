@@ -5,6 +5,11 @@ import withESI from "./withESI";
 
 const Dummy = (props: { name?: string }) => <div>Hello {props.name}</div>;
 
+test("exposes WrappedComponent", () => {
+  const DummyESI = withESI(Dummy, "id");
+  expect(DummyESI).toHaveProperty("WrappedComponent", Dummy);
+});
+
 test("client-side", () => {
   const DummyESI = withESI(Dummy, "id");
   expect(DummyESI.displayName).toBe("WithESI(Dummy)");
