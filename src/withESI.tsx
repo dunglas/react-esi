@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { WeakValidationMap } from "react";
 
 declare global {
   // tslint:disable-next-line
@@ -14,8 +14,10 @@ interface IWebpackProcess extends NodeJS.Process {
 
 interface IWithESIProps {
   esi?: {
-    attrs?: object;
-  };
+    attrs?: {
+      [key: string]: string | null;
+    } | null;
+  } | null;
 }
 
 /**
@@ -24,28 +26,27 @@ interface IWithESIProps {
 export default function withESI<P>(
   WrappedComponent: React.ComponentType<P>,
   fragmentID: string
-) {
-  let esi = {};
-  return class WithESI extends React.Component<P> {
+): React.ComponentClass<P & IWithESIProps> {
+  return class WithESI extends React.Component<P & IWithESIProps> {
     public static WrappedComponent = WrappedComponent;
     public static displayName = `WithESI(${WrappedComponent.displayName ||
       WrappedComponent.name ||
       "Component"})`;
-    public static propTypes = {
+    public static propTypes = ({
       esi: PropTypes.shape({
         attrs: PropTypes.objectOf(PropTypes.string), // extra attributes to add to the <esi:include> tag
       }),
-    };
+    } as unknown) as WeakValidationMap<P & IWithESIProps>;
     public state = {
       childProps: {},
       initialChildPropsLoaded: true,
     };
-    public esi = {};
+    private esi = {};
 
     constructor(props: P & IWithESIProps) {
       super(props);
-      const { esi: nextEsi, ...childProps } = props;
-      esi = nextEsi || {};
+      const { esi, ...childProps } = props;
+      this.esi = esi || {};
       this.state.childProps = childProps;
 
       if (!(process as IWebpackProcess).browser) {
@@ -100,7 +101,7 @@ export default function withESI<P>(
             __html: server.createIncludeElement(
               fragmentID,
               this.props,
-              esi,
+              this.esi
             ),
           }}
         />
