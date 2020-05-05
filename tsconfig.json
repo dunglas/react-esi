@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "esModuleInterop": true,
+        "esModuleInterop": true,        
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
         "outDir": "./lib/",
@@ -13,7 +13,8 @@
         "noImplicitAny": true,
         "noImplicitThis": true,
         "jsx": "react",
-        "target": "es5"
+        "target": "es5",
+        "declaration": true
     },
     "include": [
         "./src/"

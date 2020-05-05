@@ -25,6 +25,7 @@ export default function withESI<P>(
   WrappedComponent: React.ComponentType<P>,
   fragmentID: string
 ) {
+  let esi = {};
   return class WithESI extends React.Component<P> {
     public static WrappedComponent = WrappedComponent;
     public static displayName = `WithESI(${WrappedComponent.displayName ||
@@ -32,19 +33,19 @@ export default function withESI<P>(
       "Component"})`;
     public static propTypes = {
       esi: PropTypes.shape({
-        attrs: PropTypes.objectOf(PropTypes.string) // extra attributes to add to the <esi:include> tag
-      })
+        attrs: PropTypes.objectOf(PropTypes.string), // extra attributes to add to the <esi:include> tag
+      }),
     };
     public state = {
       childProps: {},
-      initialChildPropsLoaded: true
+      initialChildPropsLoaded: true,
     };
-    private esi = {};
+    public esi = {};
 
     constructor(props: P & IWithESIProps) {
       super(props);
-      const { esi, ...childProps } = props;
-      this.esi = esi || {};
+      const { esi: nextEsi, ...childProps } = props;
+      esi = nextEsi || {};
       this.state.childProps = childProps;
 
       if (!(process as IWebpackProcess).browser) {
@@ -55,7 +56,7 @@ export default function withESI<P>(
         // Inject server-side computed initial props
         this.state.childProps = {
           ...window.__REACT_ESI__[fragmentID],
-          ...this.state.childProps
+          ...this.state.childProps,
         };
         return;
       }
@@ -76,7 +77,7 @@ export default function withESI<P>(
         .then((initialProps: object) =>
           this.setState({
             childProps: initialProps,
-            initialChildPropsLoaded: true
+            initialChildPropsLoaded: true,
           })
         );
     }
@@ -85,7 +86,7 @@ export default function withESI<P>(
       if ((process as IWebpackProcess).browser) {
         return (
           <div>
-            <WrappedComponent {...this.state.childProps as P} />
+            <WrappedComponent {...(this.state.childProps as P)} />
           </div>
         );
       }
@@ -99,8 +100,8 @@ export default function withESI<P>(
             __html: server.createIncludeElement(
               fragmentID,
               this.props,
-              this.esi
-            )
+              esi,
+            ),
           }}
         />
       );
