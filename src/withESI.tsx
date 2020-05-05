@@ -16,8 +16,8 @@ interface IWithESIProps {
   esi?: {
     attrs?: {
       [key: string]: string | null;
-    } | null;
-  } | null;
+    };
+  };
 }
 
 /**
@@ -26,20 +26,20 @@ interface IWithESIProps {
 export default function withESI<P>(
   WrappedComponent: React.ComponentType<P>,
   fragmentID: string
-): React.ComponentClass<P & IWithESIProps> {
-  return class WithESI extends React.Component<P & IWithESIProps> {
+): React.ComponentClass<IWithESIProps & P> {
+  return class WithESI extends React.Component<P> {
     public static WrappedComponent = WrappedComponent;
     public static displayName = `WithESI(${WrappedComponent.displayName ||
       WrappedComponent.name ||
       "Component"})`;
-    public static propTypes = ({
+    public static propTypes = {
       esi: PropTypes.shape({
-        attrs: PropTypes.objectOf(PropTypes.string), // extra attributes to add to the <esi:include> tag
-      }),
-    } as unknown) as WeakValidationMap<P & IWithESIProps>;
+        attrs: PropTypes.objectOf(PropTypes.string) // extra attributes to add to the <esi:include> tag
+      })
+    } as unknown as WeakValidationMap<IWithESIProps & P>;
     public state = {
       childProps: {},
-      initialChildPropsLoaded: true,
+      initialChildPropsLoaded: true
     };
     private esi = {};
 
@@ -57,7 +57,7 @@ export default function withESI<P>(
         // Inject server-side computed initial props
         this.state.childProps = {
           ...window.__REACT_ESI__[fragmentID],
-          ...this.state.childProps,
+          ...this.state.childProps
         };
         return;
       }
@@ -78,7 +78,7 @@ export default function withESI<P>(
         .then((initialProps: object) =>
           this.setState({
             childProps: initialProps,
-            initialChildPropsLoaded: true,
+            initialChildPropsLoaded: true
           })
         );
     }
@@ -87,7 +87,7 @@ export default function withESI<P>(
       if ((process as IWebpackProcess).browser) {
         return (
           <div>
-            <WrappedComponent {...(this.state.childProps as P)} />
+            <WrappedComponent {...this.state.childProps as P} />
           </div>
         );
       }
@@ -102,7 +102,7 @@ export default function withESI<P>(
               fragmentID,
               this.props,
               this.esi
-            ),
+            )
           }}
         />
       );
