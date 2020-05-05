@@ -27,7 +27,7 @@ export default function withESI<P>(
   WrappedComponent: React.ComponentType<P>,
   fragmentID: string
 ): React.ComponentClass<IWithESIProps & P> {
-  return class WithESI extends React.Component<P> {
+  return class WithESI extends React.Component<P & IWithESIProps> {
     public static WrappedComponent = WrappedComponent;
     public static displayName = `WithESI(${WrappedComponent.displayName ||
       WrappedComponent.name ||
