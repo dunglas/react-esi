@@ -23,7 +23,7 @@ React ESI also allows components to (re-)render client-side without any specific
 
 ## Examples
 
-* [Next.js and Varnish example](https://github.com/zeit/next.js/blob/canary/examples/with-react-esi/)
+* [Next.js and Varnish example](https://github.com/zeit/next.js/pull/6225)
 
 ## Install
 
