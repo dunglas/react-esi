@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { WeakValidationMap } from "react";
 
 declare global {
   // tslint:disable-next-line
@@ -14,7 +14,9 @@ interface IWebpackProcess extends NodeJS.Process {
 
 interface IWithESIProps {
   esi?: {
-    attrs?: object;
+    attrs?: {
+      [key: string]: string | null;
+    };
   };
 }
 
@@ -24,8 +26,8 @@ interface IWithESIProps {
 export default function withESI<P>(
   WrappedComponent: React.ComponentType<P>,
   fragmentID: string
-) {
-  return class WithESI extends React.Component<P> {
+): React.ComponentClass<IWithESIProps & P> {
+  return class WithESI extends React.Component<P & IWithESIProps> {
     public static WrappedComponent = WrappedComponent;
     public static displayName = `WithESI(${WrappedComponent.displayName ||
       WrappedComponent.name ||
@@ -34,7 +36,7 @@ export default function withESI<P>(
       esi: PropTypes.shape({
         attrs: PropTypes.objectOf(PropTypes.string) // extra attributes to add to the <esi:include> tag
       })
-    };
+    } as unknown as WeakValidationMap<IWithESIProps & P>;
     public state = {
       childProps: {},
       initialChildPropsLoaded: true

@@ -2,6 +2,7 @@
   "name": "react-esi",
   "description": "React ESI: Blazing-fast Server-Side Rendering for React and Next.js",
   "main": "lib/withESI.js",
+  "typings": "lib/withESI.d.ts",
   "repository": "https://github.com/dunglas/react-esi",
   "author": "Kévin Dunglas",
   "license": "MIT",

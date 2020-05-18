@@ -13,7 +13,8 @@
         "noImplicitAny": true,
         "noImplicitThis": true,
         "jsx": "react",
-        "target": "es5"
+        "target": "es5",
+        "declaration": true
     },
     "include": [
         "./src/"
