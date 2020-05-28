@@ -1,5 +1,6 @@
 import express from "express";
 import React from "react";
+import Stream from "stream";
 import request from "supertest";
 
 process.env.REACT_ESI_SECRET = "dummy";
@@ -46,6 +47,47 @@ test("serveFragment", async () => {
     .set("user-agent", "test")
     .expect(200);
   expect(response.text).toMatchSnapshot();
+});
+
+test("serveFragment with pipeStream option", async () => {
+  const app = express();
+  const resolver = (
+    fragmentID: string,
+    props: object,
+    req: express.Request,
+    res: express.Response
+  ) => {
+    expect(fragmentID).toBe("fragmentID");
+    expect(props).toMatchObject({ name: "Kévin" });
+    expect(req.header("user-agent")).toBe("test");
+    expect(res).toBeDefined();
+
+    return (p: { name: string }) => <div>Hello {p.name}</div>;
+  };
+
+  app.get(path, (req: express.Request, res: express.Response) =>
+    serveFragment(req, res, resolver, {
+      pipeStream: (input) => {
+        const transformer = new Stream.Transform({
+          transform: (chunk, encoding, callback) => {
+            callback(undefined, "<div>hi there</div>");
+          },
+        });
+        input.pipe(
+          transformer,
+          { end: false }
+        );
+        return transformer;
+      },
+    })
+  );
+
+  const response: any = await request(app)
+    .get(fragmentURL)
+    .set("user-agent", "test")
+    .expect(200);
+  const addedScript = "<script>window.__REACT_ESI__ = window.__REACT_ESI__ || {}; window.__REACT_ESI__['fragmentID'] = {\"name\":\"Kévin\"};document.currentScript.remove();</script>";
+  expect(response.text).toEqual(`${addedScript}<div>hi there</div>`);
 });
 
 test("initial props", async () => {

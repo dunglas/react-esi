@@ -106,6 +106,10 @@ class RemoveReactRoot extends Transform {
   }
 }
 
+interface IServeFragmentOptions {
+  pipeStream?: (stream: NodeJS.ReadableStream) => NodeJS.ReadableStream;
+}
+
 type resolver = (
   fragmentID: string,
   props: object,
@@ -119,7 +123,8 @@ type resolver = (
 export async function serveFragment(
   req: Request,
   res: Response,
-  resolve: resolver
+  resolve: resolver,
+  options: IServeFragmentOptions = {}
 ) {
   const url = new URL(req.url, "http://example.com");
   const expectedSign = url.searchParams.get("sign");
@@ -161,12 +166,16 @@ export async function serveFragment(
       <Component {...childProps} />
     </div>
   );
+
   const removeReactRootStream = new RemoveReactRoot();
   stream.pipe(
     removeReactRootStream,
     { end: false }
   );
-  removeReactRootStream.pipe(
+
+  const lastStream: NodeJS.ReadableStream =  options.pipeStream ? options.pipeStream(removeReactRootStream) : removeReactRootStream;
+  
+  lastStream.pipe(
     res,
     { end: false }
   );
