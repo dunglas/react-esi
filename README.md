@@ -21,6 +21,8 @@ React ESI also allows components to (re-)render client-side without any specific
 ![ESI example](https://book.varnish-software.com/4.0/_images/esi.png)
 > Schema from [The Varnish Book](https://book.varnish-software.com/4.0/chapters/Content_Composition.html)
 
+**[Discover React ESI in depth with this presentation](https://dunglas.fr/2019/04/react-esi-blazing-fast-ssr/)**
+
 ## Examples
 
 * [Next.js and Varnish example](https://github.com/zeit/next.js/pull/6225)
