@@ -41,5 +41,5 @@
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "dependencies": {},
-  "version": "0.3.0"
+  "version": "0.3.1"
 }
