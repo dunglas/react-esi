@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-- '11'
+- '14'
 
 cache:
   directories:
@@ -19,5 +19,5 @@ deploy:
   api_key: $NPM_AUTH_TOKEN
   on:
     tags: true
-    node_js: '11'
+    node_js: '14'
   skip_cleanup: true
