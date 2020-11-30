@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { Request, Response } from "express";
 import React from "react";
 import { renderToNodeStream } from "react-dom/server";
-import { Transform } from "stream";
+import { Readable, Transform } from "stream";
 
 export const path = process.env.REACT_ESI_PATH || "/_fragment";
 const secret =
@@ -156,9 +156,9 @@ export async function serveFragment(
   const encodedProps = JSON.stringify(childProps).replace(/</g, "\\u003c");
 
   // Remove the <script> class from the DOM to prevent breaking the React reconciliation algorithm
-  res.write(
-    `<script>window.__REACT_ESI__ = window.__REACT_ESI__ || {}; window.__REACT_ESI__['${fragmentID}'] = ${encodedProps};document.currentScript.remove();</script>`
-  );
+  const script = "<script>window.__REACT_ESI__ = window.__REACT_ESI__ || {}; window.__REACT_ESI__['" + fragmentID + "'] = " + encodedProps + ";document.currentScript.remove();</script>";
+  const scriptStream = Readable.from(script)
+  scriptStream.pipe(res, { end: false });
 
   // Wrap the content in a div having the data-reactroot attribute, to be removed
   const stream = renderToNodeStream(
