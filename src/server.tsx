@@ -168,17 +168,9 @@ export async function serveFragment(
   );
 
   const removeReactRootStream = new RemoveReactRoot();
-  stream.pipe(
-    removeReactRootStream,
-    { end: false }
-  );
+  stream.pipe(removeReactRootStream);
 
   const lastStream: NodeJS.ReadableStream =  options.pipeStream ? options.pipeStream(removeReactRootStream) : removeReactRootStream;
   
-  lastStream.pipe(
-    res,
-    { end: false }
-  );
-
-  stream.on("end", () => res.end());
+  lastStream.pipe(res);
 }
