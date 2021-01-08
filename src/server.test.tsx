@@ -73,10 +73,7 @@ test("serveFragment with pipeStream option", async () => {
             callback(undefined, "<div>hi there</div>");
           },
         });
-        input.pipe(
-          transformer,
-          { end: false }
-        );
+        input.pipe(transformer);
         return transformer;
       },
     })
