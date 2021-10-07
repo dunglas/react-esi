@@ -73,7 +73,7 @@ const Index = () => (
 // components/MyFragment.js
 import React from 'react';
 
-export default function MyFragment(props){
+export default function MyFragment(props) {
   return (
     <section>
       <h1>A fragment that can have its own TTL</h1>
