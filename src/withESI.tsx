@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import React, { WeakValidationMap } from "react";
 
 declare global {
-  // tslint:disable-next-line
   interface Window {
     __REACT_ESI__: { [s: string]: object };
   }
@@ -29,9 +28,9 @@ export default function withESI<P>(
 ): React.ComponentClass<IWithESIProps & P> {
   return class WithESI extends React.Component<P & IWithESIProps> {
     public static WrappedComponent = WrappedComponent;
-    public static displayName = `WithESI(${WrappedComponent.displayName ||
-      WrappedComponent.name ||
-      "Component"})`;
+    public static displayName = `WithESI(${
+      WrappedComponent.displayName || WrappedComponent.name || "Component"
+    })`;
     public static propTypes = {
       esi: PropTypes.shape({
         attrs: PropTypes.objectOf(PropTypes.string) // extra attributes to add to the <esi:include> tag
@@ -87,13 +86,12 @@ export default function withESI<P>(
       if ((process as IWebpackProcess).browser) {
         return (
           <div>
-            <WrappedComponent {...this.state.childProps as P} />
+            <WrappedComponent {...(this.state.childProps as P)} />
           </div>
         );
       }
 
       // Prevent Webpack and other bundlers to ship server.js
-      // tslint:disable-next-line
       const server = eval('require("./server")');
       return (
         <div
