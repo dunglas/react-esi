@@ -18,7 +18,15 @@
     "@types/react-dom": "^16.8.0",
     "@types/react-test-renderer": "^16.8.0",
     "@types/supertest": "^2.0.7",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
     "coveralls": "^3.0.2",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "express": "^4.16.4",
     "jest": "^24.1.0",
     "prettier": "^1.15.3",
@@ -28,18 +36,15 @@
     "react-test-renderer": "^16.8.1",
     "supertest": "^3.4.2",
     "ts-jest": "^23.10.5",
-    "tslint": "^5.12.1",
-    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.3.3"
   },
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
+    "lint": "eslint --ext js,jsx,ts,tsx ./src",
     "cs": "prettier --write \"src/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "test": "jest",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
-  "dependencies": {},
   "version": "0.3.1"
 }
