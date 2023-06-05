@@ -61,6 +61,8 @@ export default function withESI<P>(
         return;
       }
 
+      // TODO: add support for getServerSideProps
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((WrappedComponent as any).getInitialProps) {
         // No server-side rendering for this component, getInitialProps will be called during componentDidMount
         this.state.initialChildPropsLoaded = false;
@@ -72,6 +74,7 @@ export default function withESI<P>(
         return;
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (WrappedComponent as any)
         .getInitialProps({ props: this.state.childProps })
         .then((initialProps: object) =>
@@ -86,7 +89,7 @@ export default function withESI<P>(
       if ((process as IWebpackProcess).browser) {
         return (
           <div>
-            <WrappedComponent {...(this.state.childProps as P)} />
+            <WrappedComponent {...(this.state.childProps as React.JSX.IntrinsicAttributes&P)} />
           </div>
         );
       }

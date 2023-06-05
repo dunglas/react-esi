@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { Request, Response } from "express";
 import React from "react";
 import { renderToNodeStream } from "react-dom/server";
-import { Readable, Transform } from "stream";
+import { Readable, Transform, TransformCallback } from "stream";
 
 export const path = process.env.REACT_ESI_PATH || "/_fragment";
 const secret =
@@ -73,8 +73,6 @@ export const createIncludeElement = (
   return `<esi:include${attrs} />`;
 };
 
-type transformCallback = (error?: Error, data?: any) => void;
-
 /**
  * Removes the placeholder holding the data-reactroot attribute.
  */
@@ -82,9 +80,10 @@ class RemoveReactRoot extends Transform {
   public skipStartOfDiv = true;
   public bufferedEndOfDiv = false;
 
-  public _transform(chunk: any, encoding: string, callback: transformCallback) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public _transform(chunk: any, encoding: string, callback: TransformCallback) {
     // '<div data-reactroot="">'.length is 23
-    chunk = chunk.toString();
+    chunk = (chunk).toString();
     if (this.skipStartOfDiv) {
       // Skip the wrapper start tag
       chunk = chunk.substring(23);
@@ -115,7 +114,7 @@ type resolver = (
   props: object,
   req: Request,
   res: Response
-) => React.ComponentType<any>;
+) => React.ComponentType<unknown>;
 
 /**
  * Checks the signature, renders the given fragment as HTML and injects the initial props in a <script> tag.
@@ -142,9 +141,13 @@ export async function serveFragment(
   const fragmentID = url.searchParams.get("fragment") || "";
 
   const Component = resolve(fragmentID, props, req, res);
-  const { esi, ...baseChildProps } = props;
+  const { ...baseChildProps } = props;
 
+
+  // TODO: add support for the new Next's getServerSideProps
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const childProps = (Component as any).getInitialProps
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ? await (Component as any).getInitialProps({
         props: baseChildProps,
         req,

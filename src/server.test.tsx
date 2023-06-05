@@ -42,7 +42,7 @@ test("serveFragment", async () => {
     serveFragment(req, res, resolver)
   );
 
-  const response: any = await request(app)
+  const response = await request(app)
     .get(fragmentURL)
     .set("user-agent", "test")
     .expect(200);
@@ -79,7 +79,7 @@ test("serveFragment with pipeStream option", async () => {
     })
   );
 
-  const response: any = await request(app)
+  const response = await request(app)
     .get(fragmentURL)
     .set("user-agent", "test")
     .expect(200);
@@ -115,7 +115,7 @@ test("initial props", async () => {
     serveFragment(req, res, resolver)
   );
 
-  const response: any = await request(app)
+  const response = await request(app)
     .get(fragmentURL)
     .set("user-agent", "test")
     .expect(200);
@@ -130,7 +130,7 @@ test("invalid signature", async () => {
     serveFragment(req, res, resolver)
   );
 
-  const response: any = await request(app)
+  const response = await request(app)
     .get(
       "/_custom?fragment=fragmentID&props=%7B%22foo%22%3A%22bar%22%7D&sign=invalid"
     )
