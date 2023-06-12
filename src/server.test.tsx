@@ -71,11 +71,11 @@ test("serveFragment with pipeStream option", async () => {
         const transformer = new Stream.Transform({
           transform: (chunk, encoding, callback) => {
             callback(undefined, "<div>hi there</div>");
-          },
+          }
         });
         input.pipe(transformer);
         return transformer;
-      },
+      }
     })
   );
 
@@ -83,7 +83,8 @@ test("serveFragment with pipeStream option", async () => {
     .get(fragmentURL)
     .set("user-agent", "test")
     .expect(200);
-  const addedScript = "<script>window.__REACT_ESI__ = window.__REACT_ESI__ || {}; window.__REACT_ESI__['fragmentID'] = {\"name\":\"Kévin\"};document.currentScript.remove();</script>";
+  const addedScript =
+    '<script>window.__REACT_ESI__ = window.__REACT_ESI__ || {}; window.__REACT_ESI__[\'fragmentID\'] = {"name":"Kévin"};document.currentScript.remove();</script>';
   expect(response.text).toEqual(`${addedScript}<div>hi there</div>`);
 });
 
