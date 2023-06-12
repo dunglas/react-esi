@@ -89,7 +89,9 @@ export default function withESI<P>(
       if ((process as IWebpackProcess).browser) {
         return (
           <div>
-            <WrappedComponent {...(this.state.childProps as React.JSX.IntrinsicAttributes&P)} />
+            <WrappedComponent
+              {...(this.state.childProps as React.JSX.IntrinsicAttributes & P)}
+            />
           </div>
         );
       }

@@ -23,7 +23,7 @@ function sign(url: URL) {
  * Adapted from https://stackoverflow.com/a/27979933/1352334 (hgoebl)
  */
 function escapeAttr(attr: string): string {
-  return attr.replace(/[<>&'"]/g, c => {
+  return attr.replace(/[<>&'"]/g, (c) => {
     switch (c) {
       case "<":
         return "&lt;";
@@ -83,7 +83,7 @@ class RemoveReactRoot extends Transform {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public _transform(chunk: any, encoding: string, callback: TransformCallback) {
     // '<div data-reactroot="">'.length is 23
-    chunk = (chunk).toString();
+    chunk = chunk.toString();
     if (this.skipStartOfDiv) {
       // Skip the wrapper start tag
       chunk = chunk.substring(23);
@@ -109,20 +109,20 @@ interface IServeFragmentOptions {
   pipeStream?: (stream: NodeJS.ReadableStream) => NodeJS.ReadableStream;
 }
 
-type resolver = (
+type resolver<TProps = unknown> = (
   fragmentID: string,
   props: object,
   req: Request,
   res: Response
-) => React.ComponentType<unknown>;
+) => React.ComponentType<TProps>;
 
 /**
  * Checks the signature, renders the given fragment as HTML and injects the initial props in a <script> tag.
  */
-export async function serveFragment(
+export async function serveFragment<TProps>(
   req: Request,
   res: Response,
-  resolve: resolver,
+  resolve: resolver<TProps>,
   options: IServeFragmentOptions = {}
 ) {
   const url = new URL(req.url, "http://example.com");
@@ -143,12 +143,11 @@ export async function serveFragment(
   const Component = resolve(fragmentID, props, req, res);
   const { ...baseChildProps } = props;
 
-
   // TODO: add support for the new Next's getServerSideProps
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const childProps = (Component as any).getInitialProps
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ? await (Component as any).getInitialProps({
+    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (Component as any).getInitialProps({
         props: baseChildProps,
         req,
         res
@@ -159,8 +158,13 @@ export async function serveFragment(
   const encodedProps = JSON.stringify(childProps).replace(/</g, "\\u003c");
 
   // Remove the <script> class from the DOM to prevent breaking the React reconciliation algorithm
-  const script = "<script>window.__REACT_ESI__ = window.__REACT_ESI__ || {}; window.__REACT_ESI__['" + fragmentID + "'] = " + encodedProps + ";document.currentScript.remove();</script>";
-  const scriptStream = Readable.from(script)
+  const script =
+    "<script>window.__REACT_ESI__ = window.__REACT_ESI__ || {}; window.__REACT_ESI__['" +
+    fragmentID +
+    "'] = " +
+    encodedProps +
+    ";document.currentScript.remove();</script>";
+  const scriptStream = Readable.from(script);
   scriptStream.pipe(res, { end: false });
 
   // Wrap the content in a div having the data-reactroot attribute, to be removed
@@ -173,7 +177,9 @@ export async function serveFragment(
   const removeReactRootStream = new RemoveReactRoot();
   stream.pipe(removeReactRootStream);
 
-  const lastStream: NodeJS.ReadableStream =  options.pipeStream ? options.pipeStream(removeReactRootStream) : removeReactRootStream;
-  
+  const lastStream: NodeJS.ReadableStream = options.pipeStream
+    ? options.pipeStream(removeReactRootStream)
+    : removeReactRootStream;
+
   lastStream.pipe(res);
 }
