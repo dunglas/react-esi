@@ -1,22 +1,21 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "forceConsistentCasingInFileNames": true,
-        "outDir": "./lib/",
-        "strictFunctionTypes": true,
-        "sourceMap": true,
-        "strictNullChecks": true,
-        "lib": ["dom", "esnext"],
-        "moduleResolution": "node",
-        "noImplicitAny": true,
-        "noImplicitThis": true,
-        "jsx": "react",
-        "target": "es5",
-        "declaration": true
-    },
-    "include": [
-        "./src/"
-    ]
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./lib/",
+    "strictFunctionTypes": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "lib": ["dom", "esnext"],
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "jsx": "react",
+    "target": "es5",
+    "declaration": true
+  },
+  "include": ["./src/"],
+  "exclude": ["./src/**/__tests__"]
 }
