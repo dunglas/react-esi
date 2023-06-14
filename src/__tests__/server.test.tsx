@@ -5,7 +5,7 @@ import request from "supertest";
 
 process.env.REACT_ESI_SECRET = "dummy";
 process.env.REACT_ESI_PATH = "/_custom";
-import { createIncludeElement, path, serveFragment } from "./server";
+import { createIncludeElement, path, serveFragment } from "../server";
 
 test("path", () => {
   expect(path).toBe("/_custom");

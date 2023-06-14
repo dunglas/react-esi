@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createIncludeElement 1`] = `"<esi:include alt="&quot;&apos;&lt;&amp;Alt&gt;&apos;&quot;" src="/_custom?fragment=fragmentID&amp;props=%7B%22name%22%3A%22K%C3%A9vin%22%7D&amp;sign=f7ddf06659aadbcba0cdad4c927ac5bf38167d714e1a15cad13115e7e9d21a9d" />"`;
+
+exports[`initial props 1`] = `"<script>window.__REACT_ESI__ = window.__REACT_ESI__ || {}; window.__REACT_ESI__['fragmentID'] = {"name":"Anne"};document.currentScript.remove();</script><div>Hello <!-- -->Anne</div>"`;
+
+exports[`invalid signature 1`] = `"Bad signature"`;
+
+exports[`serveFragment 1`] = `"<script>window.__REACT_ESI__ = window.__REACT_ESI__ || {}; window.__REACT_ESI__['fragmentID'] = {"name":"Kévin"};document.currentScript.remove();</script><div>Hello <!-- -->Kévin</div>"`;

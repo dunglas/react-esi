@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import renderer from "react-test-renderer";
-import withESI from "./withESI";
+import withESI from "../withESI";
 
 const Dummy = (props: { name?: string }) => <div>Hello {props.name}</div>;
 
