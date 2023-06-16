@@ -1,5 +1,6 @@
 # React ESI: Blazing-fast Server-Side Rendering for React and Next.js
 
+![CI status](https://github.com/github/docs/actions/workflows/test.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/dunglas/react-esi/badge.svg?branch=master)](https://coveralls.io/github/dunglas/react-esi?branch=master)
 [![npm version](https://badge.fury.io/js/react-esi.svg)](https://badge.fury.io/js/react-esi)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
