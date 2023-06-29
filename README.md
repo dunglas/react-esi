@@ -8,14 +8,14 @@
 React ESI is a super powerful cache library for vanilla [React](https://reactjs.org/) and [Next.js](https://nextjs.org/) applications, that can make highly dynamic applications as fast as static sites.
 It provides a straightforward way to boost your application's performance by storing **fragments** of server-side rendered pages in **edge cache servers**.
 It means that after the first rendering, fragments of your pages will be served in a few milliseconds by servers close to your end users!
-It's a very efficient way to improve the performance and the SEO of your websites; and to dramatically reduce both your hosting costs and the energy consumption of these applications. Help the planet, use React ESI!
+It's a very efficient way to improve the performance and the SEO of your websites and to dramatically reduce both your hosting costs and the energy consumption of these applications. Help the planet, use React ESI!
 
 Because it is built on top of the [Edge Side Includes (ESI)](https://www.w3.org/TR/esi-lang) W3C specification, 
 React ESI natively supports most of the well-known cloud cache providers including [Cloudflare Workers](https://blog.cloudflare.com/edge-side-includes-with-cloudflare-workers/), [Akamai](https://www.akamai.com/us/en/support/esi.jsp) and [Fastly](https://docs.fastly.com/guides/performance-tuning/using-edge-side-includes).
 Of course, React ESI also supports the open source [Varnish cache server](https://varnish-cache.org/intro/index.html#intro) that you can use in your own infrastructure for free ([configuration example](https://github.com/zeit/next.js/blob/canary/examples/with-react-esi/docker/varnish/default.vcl)).
 
-Also, React ESI allows to specify a different Time To Live (TTL) per React component and to generate the corresponding HTML asynchronously using a secure (signed) URL.
-The cache server fetches and stores in the cache all the needed fragments (the HTML corresponding to every React component), builds the final page and sends it to the browser.
+Also, React ESI allows to specify of different Time To Live (TTL) per React component and generating the corresponding HTML asynchronously using a secure (signed) URL.
+The cache server fetches and stores in the cache all the needed fragments (the HTML corresponding to every React component), builds the final page, and sends it to the browser.
 React ESI also allows components to (re-)render client-side without any specific configuration.
 
 ![ESI example](https://book.varnish-software.com/4.0/_images/esi.png)
@@ -222,16 +222,16 @@ These tags are automatically removed from the DOM before the rendering phase.
 React ESI plays very well with advanced cache strategies including:
 
 * Cache invalidation (purge) with cache tags ([Varnish](https://github.com/varnish/varnish-modules/blob/master/docs/vmod_xkey.rst) / [Cloudflare](https://blog.cloudflare.com/introducing-a-powerful-way-to-purge-cache-on-cloudflare-purge-by-cache-tag/))
-* Warming the cache when data change in the persistence layer ([Varnish](https://blog.theodo.fr/2015/11/auto-warm-up-varnish4-cache/))
+* Warming the cache when data changes in the persistence layer ([Varnish](https://blog.theodo.fr/2015/11/auto-warm-up-varnish4-cache/))
 
 Give them a try!
 
 ## Vue.js / Nuxt
 
-We love Vue and Nuxt as much as React and Next, so we're a currently porting React ESI for this platform.
+We love Vue and Nuxt as much as React and Next, so we're currently porting React ESI for this platform.
 Contact us if you want to help!
 
 ## Credits
 
-Created by [Kévin Dunglas](https://dunglas.fr).
+Created by [Kévin Dunglas](https://dunglas.dev).
 Sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
