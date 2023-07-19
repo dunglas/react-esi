@@ -7,6 +7,9 @@
   "author": "Kévin Dunglas",
   "license": "MIT",
   "private": false,
+  "dependencies": {
+    "prop-types": "^15.6.2"
+  },
   "peerDependencies": {
     "react": "^16.7.0 || ^17.0.0 || ^18.0.0"
   },
@@ -31,7 +34,6 @@
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "prettier": "^2.4.1",
-    "prop-types": "^15.6.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-test-renderer": "^16.8.1",
