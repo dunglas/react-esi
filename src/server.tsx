@@ -1,18 +1,20 @@
-import crypto from "crypto";
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
+import { createHmac, randomBytes } from "node:crypto";
+import type { TransformCallback } from "node:stream";
+import { Readable, Transform } from "node:stream";
+import type { ComponentType } from "react";
 import React from "react";
 import { renderToNodeStream } from "react-dom/server";
-import { Readable, Transform, TransformCallback } from "stream";
 
 export const path = process.env.REACT_ESI_PATH || "/_fragment";
 const secret =
-  process.env.REACT_ESI_SECRET || crypto.randomBytes(64).toString("hex");
+  process.env.REACT_ESI_SECRET ||randomBytes(64).toString("hex");
 
 /**
  * Signs the ESI URL with a secret key using the HMAC-SHA256 algorithm.
  */
 function sign(url: URL) {
-  const hmac = crypto.createHmac("sha256", secret);
+  const hmac =createHmac("sha256", secret);
   hmac.update(url.pathname + url.search);
   return hmac.digest("hex");
 }
@@ -114,7 +116,7 @@ type resolver<TProps = unknown> = (
   props: object,
   req: Request,
   res: Response
-) => React.ComponentType<TProps>;
+) => ComponentType<TProps>;
 
 /**
  * Checks the signature, renders the given fragment as HTML and injects the initial props in a <script> tag.
@@ -144,15 +146,16 @@ export async function serveFragment<TProps>(
   const { ...baseChildProps } = props;
 
   // TODO: add support for the new Next's getServerSideProps
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const childProps = (Component as any).getInitialProps
-    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (Component as any).getInitialProps({
-        props: baseChildProps,
-        req,
-        res
-      })
-    : baseChildProps;
+
+  const childProps =
+    "getInitialProps" in Component &&
+    typeof Component.getInitialProps === "function"
+      ? await Component.getInitialProps({
+          props: baseChildProps,
+          req,
+          res
+        })
+      : baseChildProps;
 
   // Inject the initial props
   const encodedProps = JSON.stringify(childProps).replace(/</g, "\\u003c");
@@ -177,7 +180,7 @@ export async function serveFragment<TProps>(
   const removeReactRootStream = new RemoveReactRoot();
   stream.pipe(removeReactRootStream);
 
-  const lastStream: NodeJS.ReadableStream = options.pipeStream
+  const lastStream = options.pipeStream
     ? options.pipeStream(removeReactRootStream)
     : removeReactRootStream;
 
