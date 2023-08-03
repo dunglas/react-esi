@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import express from "express";
 import React from "react";
 import Stream from "stream";

@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import { Request, Response } from "express";
 import React from "react";
-import { renderToNodeStream } from "react-dom/server";
+import { renderToPipeableStream } from "react-dom/server";
 import { Readable, Transform, TransformCallback } from "stream";
 
 export const path = process.env.REACT_ESI_PATH || "/_fragment";
@@ -168,7 +168,7 @@ export async function serveFragment<TProps>(
   scriptStream.pipe(res, { end: false });
 
   // Wrap the content in a div having the data-reactroot attribute, to be removed
-  const stream = renderToNodeStream(
+  const stream = renderToPipeableStream(
     <div>
       <Component {...childProps} />
     </div>

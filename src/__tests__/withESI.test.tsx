@@ -45,6 +45,10 @@ test("client-side call getInitialProps", async () => {
   expect(called).toBe(true);
 });
 
+/**
+ * @jest-environment node
+ */
+
 test("server-side", () => {
   const DummyESI = withESI(Dummy, "id");
   expect(DummyESI.displayName).toBe("WithESI(Dummy)");
