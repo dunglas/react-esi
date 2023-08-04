@@ -1,7 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import renderer from "react-test-renderer";
-import withESI from "../withESI";
+import withESI from "../../withESI";
+import { GlobalProcess } from "../../types";
+
+
+declare let global: GlobalProcess
 
 const Dummy = (props: { name?: string }) => <div>Hello {props.name}</div>;
 
@@ -14,7 +17,7 @@ test("client-side", () => {
   const DummyESI = withESI(Dummy, "id");
   expect(DummyESI.displayName).toBe("WithESI(Dummy)");
 
-  (global.process as any).browser = true;
+  global.process.browser = true;
   const component = renderer.create(<DummyESI name="Kévin" />);
   expect(component).toMatchSnapshot();
 });
@@ -23,8 +26,8 @@ test("client-side with serialized props", () => {
   const DummyESI = withESI(Dummy, "id");
   expect(DummyESI.displayName).toBe("WithESI(Dummy)");
 
-  (global.process as any).browser = true;
-  ((global as any).__REACT_ESI__ as any) = { id: { name: "Anne" } };
+  global.process.browser = true;
+  global.__REACT_ESI__  = { id: { name: "Anne" } };
   const component = renderer.create(<DummyESI />);
   expect(component).toMatchSnapshot();
 });
@@ -40,19 +43,7 @@ test("client-side call getInitialProps", async () => {
 
   const ComponentESI = withESI(Component, "initial-props");
 
-  (global.process as any).browser = true;
+  global.process.browser = true;
   renderer.create(<ComponentESI />);
   expect(called).toBe(true);
-});
-
-test("server-side", () => {
-  const DummyESI = withESI(Dummy, "id");
-  expect(DummyESI.displayName).toBe("WithESI(Dummy)");
-
-  process.env.REACT_ESI_SECRET = "dummy";
-  (global.process as any).browser = false;
-  const component = renderer.create(
-    <DummyESI esi={{ attrs: { onerror: "continue" } }} name="Kévin" />
-  );
-  expect(component).toMatchSnapshot();
 });

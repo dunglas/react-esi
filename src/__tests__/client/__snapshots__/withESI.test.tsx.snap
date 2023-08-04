@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`client-side 1`] = `
+<div>
+  <div>
+    Hello 
+    Kévin
+  </div>
+</div>
+`;
+
+exports[`client-side with serialized props 1`] = `
+<div>
+  <div>
+    Hello 
+    Anne
+  </div>
+</div>
+`;
