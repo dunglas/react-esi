@@ -1,20 +1,20 @@
 import type { Request, Response } from "express";
 import { createHmac, randomBytes } from "node:crypto";
-import type { TransformCallback } from "node:stream";
-import { Readable, Transform } from "node:stream";
+import type { Transform } from "node:stream";
+import { Readable } from "node:stream";
 import type { ComponentType } from "react";
 import React from "react";
-import { renderToNodeStream } from "react-dom/server";
+import type { PipeableStream } from "react-dom/server";
+import { renderToPipeableStream } from "react-dom/server";
 
 export const path = process.env.REACT_ESI_PATH || "/_fragment";
-const secret =
-  process.env.REACT_ESI_SECRET ||randomBytes(64).toString("hex");
+const secret = process.env.REACT_ESI_SECRET || randomBytes(64).toString("hex");
 
 /**
  * Signs the ESI URL with a secret key using the HMAC-SHA256 algorithm.
  */
 function sign(url: URL) {
-  const hmac =createHmac("sha256", secret);
+  const hmac = createHmac("sha256", secret);
   hmac.update(url.pathname + url.search);
   return hmac.digest("hex");
 }
@@ -75,40 +75,8 @@ export const createIncludeElement = (
   return `<esi:include${attrs} />`;
 };
 
-/**
- * Removes the placeholder holding the data-reactroot attribute.
- */
-class RemoveReactRoot extends Transform {
-  public skipStartOfDiv = true;
-  public bufferedEndOfDiv = false;
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public _transform(chunk: any, encoding: string, callback: TransformCallback) {
-    // '<div data-reactroot="">'.length is 23
-    chunk = chunk.toString();
-    if (this.skipStartOfDiv) {
-      // Skip the wrapper start tag
-      chunk = chunk.substring(23);
-      this.skipStartOfDiv = false;
-    }
-
-    if (this.bufferedEndOfDiv) {
-      // The buffered end tag wasn't the last one, push it
-      chunk = "</div>" + chunk;
-      this.bufferedEndOfDiv = false;
-    }
-
-    if (chunk.substring(chunk.length - 6) === "</div>") {
-      chunk = chunk.substring(0, chunk.length - 6);
-      this.bufferedEndOfDiv = true;
-    }
-
-    callback(undefined, chunk);
-  }
-}
-
 interface IServeFragmentOptions {
-  pipeStream?: (stream: NodeJS.ReadableStream) => NodeJS.ReadableStream;
+  pipeStream?: (stream: PipeableStream) => InstanceType<typeof Transform>;
 }
 
 type resolver<TProps = unknown> = (
@@ -170,19 +138,9 @@ export async function serveFragment<TProps>(
   const scriptStream = Readable.from(script);
   scriptStream.pipe(res, { end: false });
 
-  // Wrap the content in a div having the data-reactroot attribute, to be removed
-  const stream = renderToNodeStream(
-    <div>
-      <Component {...childProps} />
-    </div>
-  );
+  const stream = renderToPipeableStream(<Component {...childProps} />);
 
-  const removeReactRootStream = new RemoveReactRoot();
-  stream.pipe(removeReactRootStream);
-
-  const lastStream = options.pipeStream
-    ? options.pipeStream(removeReactRootStream)
-    : removeReactRootStream;
+  const lastStream = options.pipeStream ? options.pipeStream(stream) : stream;
 
   lastStream.pipe(res);
 }
