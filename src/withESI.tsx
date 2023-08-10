@@ -14,7 +14,7 @@ declare global {
   }
 }
 
-declare let process: IWebpackProcess;
+declare const process: IWebpackProcess | undefined;
 
 interface IWithESIProps {
   esi?: {
@@ -53,11 +53,11 @@ export default function withESI<P extends Record<PropertyKey, unknown>>(
       this.esi = esi || {};
       this.state.childProps = childProps;
 
-      if (!process.browser) {
+      if (typeof process === "undefined" || !process.browser) {
         return;
       }
 
-      if (window.__REACT_ESI__ && window.__REACT_ESI__[fragmentID]) {
+      if (window.__REACT_ESI__?.[fragmentID]) {
         // Inject server-side computed initial props
         this.state.childProps = {
           ...window.__REACT_ESI__[fragmentID],
@@ -90,29 +90,16 @@ export default function withESI<P extends Record<PropertyKey, unknown>>(
     }
 
     public render() {
-      if (process.browser) {
+      if (typeof process !== "undefined" && process.browser) {
         return (
-          <div>
-            <WrappedComponent
-              {...(this.state.childProps as JSX.IntrinsicAttributes & P)}
-            />
-          </div>
+          <WrappedComponent
+            {...(this.state.childProps as JSX.IntrinsicAttributes & P)}
+          />
         );
       }
-
       // Prevent Webpack and other bundlers to ship server.js
       const server = eval('require("./server")');
-      return (
-        <div
-          dangerouslySetInnerHTML={{
-            __html: server.createIncludeElement(
-              fragmentID,
-              this.props,
-              this.esi
-            )
-          }}
-        />
-      );
+      return server.createIncludeElement(fragmentID, this.props, this.esi);
     }
   };
 }

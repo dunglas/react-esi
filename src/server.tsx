@@ -19,28 +19,6 @@ function sign(url: URL) {
   return hmac.digest("hex");
 }
 
-/**
- * Escapes ESI attributes.
- *
- * Adapted from https://stackoverflow.com/a/27979933/1352334 (hgoebl)
- */
-function escapeAttr(attr: string): string {
-  return attr.replace(/[<>&'"]/g, (c) => {
-    switch (c) {
-      case "<":
-        return "&lt;";
-      case ">":
-        return "&gt;";
-      case "&":
-        return "&amp;";
-      case "'":
-        return "&apos;";
-      default:
-        return "&quot;";
-    }
-  });
-}
-
 interface IEsiAttrs {
   src?: string;
   alt?: string;
@@ -67,12 +45,8 @@ export const createIncludeElement = (
   url.searchParams.append("sign", sign(url));
 
   esiAt.src = url.pathname + url.search;
-  let attrs = "";
-  Object.entries(esiAt).forEach(
-    ([key, value]) => (attrs += ` ${key}="${value ? escapeAttr(value) : ""}"`)
-  );
 
-  return `<esi:include${attrs} />`;
+  return React.createElement("esi:include", esiAt);
 };
 
 interface IServeFragmentOptions {
@@ -87,7 +61,8 @@ type resolver<TProps = unknown> = (
 ) => ComponentType<TProps>;
 
 /**
- * Checks the signature, renders the given fragment as HTML and injects the initial props in a <script> tag.
+ * Checks the signature, renders the given fragment as HTML
+ * and injects the initial props in a <script> tag.
  */
 export async function serveFragment<TProps>(
   req: Request,
@@ -99,6 +74,7 @@ export async function serveFragment<TProps>(
   const expectedSign = url.searchParams.get("sign");
 
   url.searchParams.delete("sign");
+
   if (sign(url) !== expectedSign) {
     res.status(400);
     res.send("Bad signature");
@@ -129,12 +105,7 @@ export async function serveFragment<TProps>(
   const encodedProps = JSON.stringify(childProps).replace(/</g, "\\u003c");
 
   // Remove the <script> class from the DOM to prevent breaking the React reconciliation algorithm
-  const script =
-    "<script>window.__REACT_ESI__ = window.__REACT_ESI__ || {}; window.__REACT_ESI__['" +
-    fragmentID +
-    "'] = " +
-    encodedProps +
-    ";document.currentScript.remove();</script>";
+  const script = `<script>window.__REACT_ESI__ = window.__REACT_ESI__ || {}; window.__REACT_ESI__['${fragmentID}'] = ${encodedProps};document.currentScript.remove();</script>`;
   const scriptStream = Readable.from(script);
   scriptStream.pipe(res, { end: false });
 

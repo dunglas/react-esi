@@ -5,4 +5,4 @@ export interface IWebpackProcess extends NodeJS.Process {
 export type GlobalProcess = typeof globalThis & {
   process: IWebpackProcess;
   __REACT_ESI__: { [s: string]: object };
-}
+};
