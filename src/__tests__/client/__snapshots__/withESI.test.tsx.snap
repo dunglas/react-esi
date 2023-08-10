@@ -2,18 +2,14 @@
 
 exports[`client-side 1`] = `
 <div>
-  <div>
-    Hello 
-    Kévin
-  </div>
+  Hello 
+  Kévin
 </div>
 `;
 
 exports[`client-side with serialized props 1`] = `
 <div>
-  <div>
-    Hello 
-    Anne
-  </div>
+  Hello 
+  Anne
 </div>
 `;

@@ -3,8 +3,7 @@ import renderer from "react-test-renderer";
 import withESI from "../../withESI";
 import { GlobalProcess } from "../../types";
 
-
-declare let global: GlobalProcess
+declare let global: GlobalProcess;
 
 const Dummy = (props: { name?: string }) => <div>Hello {props.name}</div>;
 
@@ -27,7 +26,7 @@ test("client-side with serialized props", () => {
   expect(DummyESI.displayName).toBe("WithESI(Dummy)");
 
   global.process.browser = true;
-  global.__REACT_ESI__  = { id: { name: "Anne" } };
+  global.__REACT_ESI__ = { id: { name: "Anne" } };
   const component = renderer.create(<DummyESI />);
   expect(component).toMatchSnapshot();
 });
