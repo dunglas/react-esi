@@ -1,0 +1,23 @@
+{
+  "author": "Kévin Dunglas",
+  "dependencies": {
+    "express": "^4.18.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-esi": "file:../../"
+  },
+  "description": "An example project to demonstrate usage of ESI with Express",
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.0.4",
+    "vite": "^4.4.8"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "name": "esi-express-example",
+  "repository": "https://github.com/dunglas/react-esi/examples/express",
+  "scripts": {
+    "dev": "vite",
+    "server": "node src/server.mjs"
+  },
+  "version": "1.0.0"
+}
