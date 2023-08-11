@@ -3,13 +3,14 @@ import next from "next";
 import { parse } from "url";
 import { path, serveFragment } from "react-esi/lib/server";
 
-const port = parseInt(process.env.PORT || "3000", 10);
+const port = Number.parseInt(process.env.PORT || "3000", 10);
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
+
   server.use((req, res, next) => {
     // Send the Surrogate-Control header to announce ESI support to proxies (optional with Varnish)
     res.set("Surrogate-Control", 'content="ESI/1.0"');
@@ -19,6 +20,7 @@ app.prepare().then(() => {
   server.get(path, (req, res) => {
     try {
       return serveFragment(req, res, (fragmentID) => {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         return require(`./components/${fragmentID}`).default;
       });
     } catch (error) {
@@ -26,6 +28,7 @@ app.prepare().then(() => {
       res.send(error.message);
     }
   });
+
   server.get("*", (req, res) => {
     const parsedUrl = parse(req.url!, true);
     return handle(req, res, parsedUrl);
