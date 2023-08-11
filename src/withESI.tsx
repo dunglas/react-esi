@@ -6,15 +6,12 @@ import type {
   WeakValidationMap
 } from "react";
 import React, { Component } from "react";
-import { IWebpackProcess } from "./types";
 
 declare global {
   interface Window {
     __REACT_ESI__: { [s: string]: object };
   }
 }
-
-declare const process: IWebpackProcess | undefined;
 
 interface IWithESIProps {
   esi?: {
@@ -53,7 +50,7 @@ export default function withESI<P extends Record<PropertyKey, unknown>>(
       this.esi = esi || {};
       this.state.childProps = childProps;
 
-      if (typeof process === "undefined" || !process.browser) {
+      if (typeof window === "undefined") {
         return;
       }
 
@@ -90,7 +87,7 @@ export default function withESI<P extends Record<PropertyKey, unknown>>(
     }
 
     public render() {
-      if (typeof process !== "undefined" && process.browser) {
+      if (typeof window !== "undefined") {
         return (
           <WrappedComponent
             {...(this.state.childProps as JSX.IntrinsicAttributes & P)}

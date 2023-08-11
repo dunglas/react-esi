@@ -89,8 +89,6 @@ export async function serveFragment<TProps>(
   const Component = resolve(fragmentID, props, req, res);
   const { ...baseChildProps } = props;
 
-  // TODO: add support for the new Next's getServerSideProps
-
   const childProps =
     "getInitialProps" in Component &&
     typeof Component.getInitialProps === "function"
