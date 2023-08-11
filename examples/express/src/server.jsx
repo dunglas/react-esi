@@ -1,9 +1,11 @@
 // server.js
 import express from "express";
 import { path, serveFragment } from "react-esi/lib/server";
-import * as ReactDOMServer from 'react-dom/server';
+import * as ReactDOMServer from "react-dom/server";
 import { App } from "./pages/App";
 import React from "react";
+
+const port = Number.parseInt(process.env.PORT || "3000", 10);
 
 const server = express();
 server.use((req, res, next) => {
@@ -12,7 +14,7 @@ server.use((req, res, next) => {
   next();
 });
 
-server.get('/', (req, res) => {
+server.get("/", (req, res) => {
   const app = ReactDOMServer.renderToString(<App />);
 
   const html = `
@@ -24,9 +26,9 @@ server.get('/', (req, res) => {
           <div id="root">${app}</div>
       </body>
       </html>
-  `
+  `;
   res.send(html);
-})
+});
 
 // "path" default to /_fragment, change it using the REACT_ESI_PATH env var
 server.get(path, (req, res) => {
@@ -41,6 +43,8 @@ server.get(path, (req, res) => {
 // ...
 // Other Express routes come here
 
-server.use(express.static("./built"));
+server.use(express.static("./dist"));
 
-server.listen(8080);
+server.listen(port,  () => {
+  console.log(`> Ready on http://localhost:${port}`);
+});
