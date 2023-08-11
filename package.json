@@ -55,19 +55,28 @@
   },
   "version": "0.3.1",
   "exports": {
+    ".": {
+      "types": "./lib/withESI.d.ts",
+      "import": "./lib/withESI.js",
+      "require": "./lib/withESI.js"
+    },
     "./lib/server": {
+      "types": "./lib/server.d.ts",
       "import": "./lib/server.js",
       "require": "./lib/server.js"
     },
     "./lib/withESI": {
+      "types": "./lib/withESI.d.ts",
       "import": "./lib/withESI.js",
       "require": "./lib/withESI.js"
     },
     "./server": {
+      "types": "./lib/server.d.ts",
       "import": "./lib/server.js",
       "require": "./lib/server.js"
     },
     "./withESI": {
+      "types": "./lib/withESI.d.ts",
       "import": "./lib/withESI.js",
       "require": "./lib/withESI.js"
     }
