@@ -1,7 +1,6 @@
-// server.js
 import express from "express";
 import { path, serveFragment } from "react-esi/lib/server";
-import * as ReactDOMServer from "react-dom/server";
+import { renderToString } from "react-dom/server";
 import { App } from "./pages/App";
 import React from "react";
 
@@ -15,7 +14,7 @@ server.use((req, res, next) => {
 });
 
 server.get("/", (req, res) => {
-  const app = ReactDOMServer.renderToString(<App />);
+  const app = renderToString(<App />);
 
   const html = `
       <html lang="en">

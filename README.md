@@ -5,17 +5,18 @@
 [![npm version](https://badge.fury.io/js/react-esi.svg)](https://badge.fury.io/js/react-esi)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
-React ESI is a super powerful cache library for vanilla [React](https://reactjs.org/) and [Next.js](https://nextjs.org/) applications, that can make highly dynamic applications as fast as static sites.
-It provides a straightforward way to boost your application's performance by storing **fragments** of server-side rendered pages in **edge cache servers**.
-It means that after the first rendering, fragments of your pages will be served in a few milliseconds by servers close to your end users!
+React ESI is a super powerful cache library for vanilla [React](https://reactjs.org/) and [Next.js](https://nextjs.org/) applications, that can make highly dynamic applications as fast as static sites.  
+
+It provides a straightforward way to boost your application's performance by storing **fragments** of server-side rendered pages in **edge cache servers**.  
+It means that after the first rendering, fragments of your pages will be served in a few milliseconds by servers close to your end users!  
 It's a very efficient way to improve the performance and the SEO of your websites and to dramatically reduce both your hosting costs and the energy consumption of these applications. Help the planet, use React ESI!
 
 Because it is built on top of the [Edge Side Includes (ESI)](https://www.w3.org/TR/esi-lang) W3C specification, 
-React ESI natively supports most of the well-known cloud cache providers including [Cloudflare Workers](https://blog.cloudflare.com/edge-side-includes-with-cloudflare-workers/), [Akamai](https://www.akamai.com/us/en/support/esi.jsp) and [Fastly](https://docs.fastly.com/guides/performance-tuning/using-edge-side-includes).
+React ESI natively supports most of the well-known cloud cache providers including [Cloudflare Workers](https://blog.cloudflare.com/edge-side-includes-with-cloudflare-workers/), [Akamai](https://www.akamai.com/us/en/support/esi.jsp) and [Fastly](https://docs.fastly.com/guides/performance-tuning/using-edge-side-includes).  
 Of course, React ESI also supports the open source [Varnish cache server](https://varnish-cache.org/intro/index.html#intro) that you can use in your own infrastructure for free ([configuration example](https://github.com/zeit/next.js/blob/canary/examples/with-react-esi/docker/varnish/default.vcl)).
 
-Also, React ESI allows to specify of different Time To Live (TTL) per React component and generating the corresponding HTML asynchronously using a secure (signed) URL.
-The cache server fetches and stores in the cache all the needed fragments (the HTML corresponding to every React component), builds the final page, and sends it to the browser.
+Also, React ESI allows to specify of different Time To Live (TTL) per React component and generating the corresponding HTML asynchronously using a secure (signed) URL.  
+The cache server fetches and stores in the cache all the needed fragments (the HTML corresponding to every React component), builds the final page, and sends it to the browser.  
 React ESI also allows components to (re-)render client-side without any specific configuration.
 
 ![ESI example](https://book.varnish-software.com/4.0/_images/esi.png)
@@ -52,16 +53,16 @@ If the method hasn't been called server-side, then it will be called client-side
 ### The Higher Order Component
 
 ```javascript
-// pages/index.js
-import React from 'react';
-import withESI from 'react-esi';
-import MyFragment from 'components/MyFragment';
+// pages/App.jsx
+import React from "react";
+import withESI from "react-esi/lib/withESI";
+import MyFragment from "../components/MyFragment";
 
-const MyFragmentESI = withESI(MyFragment, 'MyFragment');
+const MyFragmentESI = withESI(MyFragment, "MyFragment");
 // The second parameter is an unique ID identifying this fragment.
 // If you use different instances of the same component, use a different ID per instance.
 
-const Index = () => (
+export const App = () => (
   <div>
     <h1>React ESI demo app</h1>
     <MyFragmentESI greeting="Hello!" />
@@ -70,8 +71,8 @@ const Index = () => (
 ```
 
 ```javascript
-// components/MyFragment.js
-import React from 'react';
+// components/MyFragment.jsx
+import React from "react";
 
 export default class MyFragment extends React.Component {
   render() {
@@ -85,11 +86,11 @@ export default class MyFragment extends React.Component {
     );
   }
 
-  static async getInitialProps({ props, req, res }) {
-    return new Promise(resolve => {
+  static async getInitialProps({ props, res }) {
+    return new Promise((resolve) => {
       if (res) {
         // Set a TTL for this fragment
-        res.set('Cache-Control', 's-maxage=60, max-age=30');
+        res.set("Cache-Control", "s-maxage=60, max-age=30");
       }
 
       // Simulate a delay (call to a remote service such as a web API)
@@ -97,13 +98,14 @@ export default class MyFragment extends React.Component {
         () =>
           resolve({
             ...props, // Props coming from index.js, passed through the internal URL
-            dataFromAnAPI: 'Hello there'
+            dataFromAnAPI: "Hello there"
           }),
         2000
       );
     });
   }
 }
+
 ```
 
 The initial props **must** be serializable using `JSON.stringify()`. Beware `Map`, `Set` and `Symbol`!
@@ -113,63 +115,103 @@ However, it's a totally independent and standalone implementation (you don't nee
 
 ### Serving the Fragments
 
-To serve the fragments, React ESI provides a ready to use controller compatible with [Express](https://expressjs.com/):
+To serve the fragments, React ESI provides a ready to use controller compatible with [Express](https://expressjs.com/), you can find the full example [here](ttps://github.com/dunglas/react-esi/tree/main/examples/express)
 
 ```javascript
-// server.js
-import express from 'express';
-import { path, serveFragment } from 'react-esi/lib/server';
+// server.jsx
+import express from "express";
+import { path, serveFragment } from "react-esi/lib/server";
+import { renderToString } from "react-dom/server";
+import { App } from "./pages/App";
+import React from "react";
+
+const port = Number.parseInt(process.env.PORT || "3000", 10);
 
 const server = express();
 server.use((req, res, next) => {
   // Send the Surrogate-Control header to announce ESI support to proxies (optional with Varnish, depending of your config)
-  res.set('Surrogate-Control', 'content="ESI/1.0"');
+  res.set("Surrogate-Control", 'content="ESI/1.0"');
   next();
 });
 
-server.get(path, (req, res) =>
-  // "path" default to /_fragment, change it using the REACT_ESI_PATH env var
-  serveFragment(
+server.get("/", (req, res) => {
+  const app = renderToString(<App />);
+
+  const html = `
+      <html lang="en">
+      <head>
+          <script src="app.js" async defer></script>
+      </head>
+      <body>
+          <div id="root">${app}</div>
+      </body>
+      </html>
+  `;
+  res.send(html);
+});
+
+// "path" default to /_fragment, change it using the REACT_ESI_PATH env var
+server.get(path, (req, res) => {
+  return serveFragment(
     req,
     res,
     // "fragmentID" is the second parameter passed to the "WithESI" HOC, the root component used for this fragment must be returned
-    fragmentID => require(`./components/${fragmentID}`).default) 
-);
+    (fragmentID) => require(`./components/${fragmentID}`).default
+  );
+});
 
 // ...
 // Other Express routes come here
 
-server.listen(80);
+server.use(express.static("./dist"));
+
+server.listen(port,  () => {
+  console.log(`> Ready on http://localhost:${port}`);
+});
+
 ```
 
-Alternatively, here is a full example using [a Next.js server](https://github.com/zeit/next.js/tree/master/examples/custom-server-express):
+Alternatively, here is a full example using [a Next.js server](https://github.com/dunglas/react-esi/tree/main/examples/next):
 
 ```javascript
-// server.js
-import express from 'express';
-import next from 'next';
-import { path, serveFragment } from 'react-esi/lib/server';
+// server.ts
+import express from "express";
+import next from "next";
+import { parse } from "url";
+import { path, serveFragment } from "react-esi/lib/server";
 
-const port = parseInt(process.env.PORT, 10) || 3000
-const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
-const handle = app.getRequestHandler()
+const port = Number.parseInt(process.env.PORT || "3000", 10);
+const dev = process.env.NODE_ENV !== "production";
+const app = next({ dev });
+const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
+
   server.use((req, res, next) => {
     // Send the Surrogate-Control header to announce ESI support to proxies (optional with Varnish)
-    res.set('Surrogate-Control', 'content="ESI/1.0"');
+    res.set("Surrogate-Control", 'content="ESI/1.0"');
     next();
   });
 
-  server.get(path, (req, res) =>
-    serveFragment(req, res, fragmentID => require(`./components/${fragmentID}`).default)
-  );
-  server.get('*', handle); // Next.js routes
+  server.get(path, (req, res) => {
+    try {
+      return serveFragment(req, res, (fragmentID) => {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        return require(`./components/${fragmentID}`).default;
+      });
+    } catch (error) {
+      res.status(500);
+      res.send(error.message);
+    }
+  });
 
-  server.listen(port, err => {
-    if (err) throw err;
+  server.get("*", (req, res) => {
+    const parsedUrl = parse(req.url!, true);
+    return handle(req, res, parsedUrl);
+  }); // Next.js routes
+
+  server.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);
   });
 });
