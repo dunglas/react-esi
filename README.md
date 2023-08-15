@@ -5,13 +5,13 @@
 [![npm version](https://badge.fury.io/js/react-esi.svg)](https://badge.fury.io/js/react-esi)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 
-React ESI is a super powerful cache library for vanilla [React](https://reactjs.org/) and [Next.js](https://nextjs.org/) applications, that can make highly dynamic applications as fast as static sites.  
+React ESI is a super powerful cache library for vanilla [React](https://reactjs.org/) and [Next.js](https://nextjs.org/) applications, that can make highly dynamic applications as fast as static sites.
 
 It provides a straightforward way to boost your application's performance by storing **fragments** of server-side rendered pages in **edge cache servers**.  
 It means that after the first rendering, fragments of your pages will be served in a few milliseconds by servers close to your end users!  
 It's a very efficient way to improve the performance and the SEO of your websites and to dramatically reduce both your hosting costs and the energy consumption of these applications. Help the planet, use React ESI!
 
-Because it is built on top of the [Edge Side Includes (ESI)](https://www.w3.org/TR/esi-lang) W3C specification, 
+Because it is built on top of the [Edge Side Includes (ESI)](https://www.w3.org/TR/esi-lang) W3C specification,
 React ESI natively supports most of the well-known cloud cache providers including [Cloudflare Workers](https://blog.cloudflare.com/edge-side-includes-with-cloudflare-workers/), [Akamai](https://www.akamai.com/us/en/support/esi.jsp) and [Fastly](https://docs.fastly.com/guides/performance-tuning/using-edge-side-includes).  
 Of course, React ESI also supports the open source [Varnish cache server](https://varnish-cache.org/intro/index.html#intro) that you can use in your own infrastructure for free ([configuration example](https://github.com/zeit/next.js/blob/canary/examples/with-react-esi/docker/varnish/default.vcl)).
 
@@ -20,13 +20,15 @@ The cache server fetches and stores in the cache all the needed fragments (the H
 React ESI also allows components to (re-)render client-side without any specific configuration.
 
 ![ESI example](https://book.varnish-software.com/4.0/_images/esi.png)
+
 > Schema from [The Varnish Book](https://book.varnish-software.com/4.0/chapters/Content_Composition.html)
 
 **[Discover React ESI in depth with this presentation](https://dunglas.fr/2019/04/react-esi-blazing-fast-ssr/)**
 
 ## Examples
 
-* [Next.js and Varnish example](https://github.com/zeit/next.js/pull/6225)
+- [Next.js, Express and Varnish](https://github.com/dunglas/react-esi/tree/main/examples/next)
+- [React, Express and Varnish](https://github.com/dunglas/react-esi/tree/main/examples/express)
 
 ## Install
 
@@ -41,8 +43,9 @@ Or using NPM:
 ## Usage
 
 React ESI provides a convenient [Higher Order Component](https://reactjs.org/docs/higher-order-components.html) that will:
-* replace the wrapped component by an ESI tag server-side (don't worry React ESI also provides the tooling to generate the corresponding fragment);
-* render the wrapped component client-side, and feed it with the server-side computed props (if any).
+
+- replace the wrapped component by an ESI tag server-side (don't worry React ESI also provides the tooling to generate the corresponding fragment);
+- render the wrapped component client-side, and feed it with the server-side computed props (if any).
 
 React ESI automatically calls a `static async` method named `getInitialProps()` to populate the initial props of the component. Server-side, this method can access to the HTTP request and response, for instance, to set the `Cache-Control` header, or some [cache tags](https://api-platform.com/docs/core/performance/#enabling-the-built-in-http-cache-invalidation-system).
 
@@ -105,7 +108,6 @@ export default class MyFragment extends React.Component {
     });
   }
 }
-
 ```
 
 The initial props **must** be serializable using `JSON.stringify()`. Beware `Map`, `Set` and `Symbol`!
@@ -115,7 +117,7 @@ However, it's a totally independent and standalone implementation (you don't nee
 
 ### Serving the Fragments
 
-To serve the fragments, React ESI provides a ready to use controller compatible with [Express](https://expressjs.com/), you can find the full example [here](ttps://github.com/dunglas/react-esi/tree/main/examples/express)
+To serve the fragments, React ESI provides a ready to use controller compatible with [Express](https://expressjs.com/), you can find the full example [here](https://github.com/dunglas/react-esi/tree/main/examples/express)
 
 ```javascript
 // server.jsx
@@ -165,10 +167,9 @@ server.get(path, (req, res) => {
 
 server.use(express.static("./dist"));
 
-server.listen(port,  () => {
+server.listen(port, () => {
   console.log(`> Ready on http://localhost:${port}`);
 });
-
 ```
 
 Alternatively, here is a full example using [a Next.js server](https://github.com/dunglas/react-esi/tree/main/examples/next):
@@ -219,16 +220,16 @@ app.prepare().then(() => {
 
 ## Features
 
-* Support Varnish, Cloudflare Workers, Akamai, Fastly and any other cache systems having ESI support
-* Written in TypeScript
-* Next.js-friendly API
+- Support Varnish, Cloudflare Workers, Akamai, Fastly and any other cache systems having ESI support
+- Written in TypeScript
+- Next.js-friendly API
 
 ## Environment Variables
 
 React ESI can be configured using environment variables:
 
-* `REACT_ESI_SECRET`: a secret key used to sign the fragment URL (default to a random string, **it's highly recommended to set it to prevent problems when the server restart, or when using multiple servers**)
-* `REACT_ESI_PATH`: the internal path used to generate the fragment, should not be exposed publicly (default: `/_fragment`)
+- `REACT_ESI_SECRET`: a secret key used to sign the fragment URL (default to a random string, **it's highly recommended to set it to prevent problems when the server restart, or when using multiple servers**)
+- `REACT_ESI_PATH`: the internal path used to generate the fragment, should not be exposed publicly (default: `/_fragment`)
 
 ## Passing Attributes to the `<esi:include>` Element
 
@@ -263,8 +264,8 @@ These tags are automatically removed from the DOM before the rendering phase.
 
 React ESI plays very well with advanced cache strategies including:
 
-* Cache invalidation (purge) with cache tags ([Varnish](https://github.com/varnish/varnish-modules/blob/master/docs/vmod_xkey.rst) / [Cloudflare](https://blog.cloudflare.com/introducing-a-powerful-way-to-purge-cache-on-cloudflare-purge-by-cache-tag/))
-* Warming the cache when data changes in the persistence layer ([Varnish](https://blog.theodo.fr/2015/11/auto-warm-up-varnish4-cache/))
+- Cache invalidation (purge) with cache tags ([Varnish](https://github.com/varnish/varnish-modules/blob/master/docs/vmod_xkey.rst) / [Cloudflare](https://blog.cloudflare.com/introducing-a-powerful-way-to-purge-cache-on-cloudflare-purge-by-cache-tag/))
+- Warming the cache when data changes in the persistence layer ([Varnish](https://blog.theodo.fr/2015/11/auto-warm-up-varnish4-cache/))
 
 Give them a try!
 

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default class MyFragment extends React.Component {
   render() {
@@ -31,3 +32,8 @@ export default class MyFragment extends React.Component {
     });
   }
 }
+
+MyFragment.propTypes = {
+  greeting: PropTypes.string,
+  dataFromAnAPI: PropTypes.string
+};

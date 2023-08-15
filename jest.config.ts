@@ -14,13 +14,13 @@ const config: Config = {
       ...commonConfig,
       displayName: "server",
       testRegex: "/__tests__/server/.*\\.[jt]sx?$",
-      testEnvironment: "node",
+      testEnvironment: "node"
     },
     {
       ...commonConfig,
       displayName: "client",
       testRegex: "/__tests__/client/.*\\.[jt]sx?$",
-      testEnvironment: "jsdom",
+      testEnvironment: "jsdom"
     }
   ]
 };

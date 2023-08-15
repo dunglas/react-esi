@@ -7,13 +7,14 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier",
     "plugin:prettier/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
+    "ecmaVersion": "latest",
     "ecmaFeatures": {
       "jsx": true
     },
@@ -27,5 +28,6 @@
     "react": {
       "version": "detect"
     }
-  }
+  },
+  "ignorePatterns": ["node_modules/", "dist/", ".next/", "lib/"]
 }

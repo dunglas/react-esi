@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 export default class MyFragment extends React.Component {
   render() {
@@ -14,10 +14,10 @@ export default class MyFragment extends React.Component {
   }
 
   static async getInitialProps({ props, res }) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       if (res) {
         // Set a TTL for this fragment
-        res.set('Cache-Control', 's-maxage=60, max-age=30');
+        res.set("Cache-Control", "s-maxage=60, max-age=30");
       }
 
       // Simulate a delay (call to a remote service such as a web API)
@@ -25,7 +25,7 @@ export default class MyFragment extends React.Component {
         () =>
           resolve({
             ...props, // Props coming from index.js, passed through the internal URL
-            dataFromAnAPI: 'Hello there'
+            dataFromAnAPI: "Hello there"
           }),
         2000
       );
@@ -35,5 +35,5 @@ export default class MyFragment extends React.Component {
 
 MyFragment.propTypes = {
   greeting: PropTypes.string,
-  dataFromAnAPI: PropTypes.string,
+  dataFromAnAPI: PropTypes.string
 };
