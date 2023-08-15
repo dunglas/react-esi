@@ -19,6 +19,30 @@ function sign(url: URL) {
   return hmac.digest("hex");
 }
 
+/**
+ * Escapes ESI attributes.
+ *
+ * Adapted from https://stackoverflow.com/a/27979933/1352334 (hgoebl)
+ */
+function escapeAttributes(attribute: string) {
+  if (!attribute) return "";
+
+  return attribute.replace(/[<>&'"]/g, (c) => {
+    switch (c) {
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case "&":
+        return "&amp;";
+      case "'":
+        return "&apos;";
+      default:
+        return "&quot;";
+    }
+  });
+}
+
 interface IEsiAttrs {
   src?: string;
   alt?: string;
@@ -46,7 +70,10 @@ export const createIncludeElement = (
 
   esiAt.src = url.pathname + url.search;
 
-  return React.createElement("esi:include", esiAt);
+  const escapedAttributes = Object.fromEntries(
+    Object.entries(esiAt).map(([key, value]) => [key, escapeAttributes(value)])
+  );
+  return React.createElement("esi:include", escapedAttributes);
 };
 
 interface IServeFragmentOptions {

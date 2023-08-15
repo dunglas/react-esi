@@ -16,7 +16,7 @@ test("createIncludeElement", () => {
   const elem = createIncludeElement(
     "fragmentID",
     { name: "Kévin" },
-    { attrs: { alt: "/alternative-path" } }
+    { attrs: { alt: `"'<&Alt>'"` } }
   );
   expect(elem).toMatchSnapshot();
 });
