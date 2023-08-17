@@ -117,7 +117,7 @@ However, it's a totally independent and standalone implementation (you don't nee
 
 ### Serving the Fragments
 
-To serve the fragments, React ESI provides a ready to use controller compatible with [Express](https://expressjs.com/), you can find the full example [here](https://github.com/dunglas/react-esi/tree/main/examples/express)
+To serve the fragments, React ESI provides a ready-to-use controller compatible with [Express](https://expressjs.com/), check out [the full example](https://github.com/dunglas/react-esi/tree/main/examples/express).
 
 ```javascript
 // server.jsx
@@ -198,7 +198,6 @@ app.prepare().then(() => {
   server.get(path, (req, res) => {
     try {
       return serveFragment(req, res, (fragmentID) => {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
         return require(`./components/${fragmentID}`).default;
       });
     } catch (error) {
@@ -207,10 +206,8 @@ app.prepare().then(() => {
     }
   });
 
-  server.get("*", (req, res) => {
-    const parsedUrl = parse(req.url!, true);
-    return handle(req, res, parsedUrl);
-  }); // Next.js routes
+  // Next.js routes
+  server.get("*", (req, res) => handle(req, res, parse(req.url!, true)));
 
   server.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);

@@ -29,10 +29,8 @@ app.prepare().then(() => {
     }
   });
 
-  server.get("*", (req, res) => {
-    const parsedUrl = parse(req.url!, true);
-    return handle(req, res, parsedUrl);
-  }); // Next.js routes
+  // Next.js routes
+  server.get("*", (req, res) => handle(req, res, parse(req.url!, true)));
 
   server.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);
