@@ -6,7 +6,6 @@ backend node {
 }
 
 sub vcl_recv {
-
     if (req.http.upgrade ~ "(?i)websocket") {
         return (pipe);
     }
