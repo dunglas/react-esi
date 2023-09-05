@@ -1,6 +1,6 @@
-# Custom server example with TypeScript, Next and Nodemon
+# Custom server example with TypeScript, Next, Nodemon, Varnish, and react-esi
 
-The example shows how you can use [TypeScript](https://typescriptlang.com) on both the server and the client while using [Nodemon](https://nodemon.io/) to live reload the server code without affecting the [Next.js](https://nextjs.org/) universal code.
+This example showcases how you can use [TypeScript](https://typescriptlang.com) on both the server and client side. It leverages [Nodemon](https://nodemon.io/) for live server code reloading without affecting the [Next.js](https://nextjs.org/) universal code. The integration of [Varnish](https://varnish-cache.org/intro/) server and the `react-esi` library provides robust caching capabilities using `esi:include` tags.
 
 Server entry point is `server.ts` in development and `dist/server.js` in production.
 
@@ -12,4 +12,7 @@ Deploy the example using [Vercel](https://vercel.com) or preview live with [Stac
 
 ## How to use
 
-Clone this repository, go to the examples/next folder, run `yarn install` to install the dependencies then run `docker compose` to run the example.
+1. Clone this repository.
+2. Navigate to the examples/next folder.
+3. Run `yarn install` to install the dependencies.
+4. Use `docker compose` to run the example.
