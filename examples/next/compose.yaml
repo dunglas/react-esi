@@ -1,6 +1,6 @@
 services:
   varnish:
-    image: varnish:7
+    image: varnish:7.3
     volumes:
       - ./default.vcl:/etc/varnish/default.vcl:ro
     tmpfs:
