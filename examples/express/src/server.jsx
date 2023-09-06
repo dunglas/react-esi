@@ -1,7 +1,7 @@
 import express from "express";
 import { path, serveFragment } from "react-esi/lib/server";
 import { renderToString } from "react-dom/server";
-import { App } from "./pages/App";
+import App from "./pages/App";
 import React from "react";
 
 const port = Number.parseInt(process.env.PORT || "3000", 10);
@@ -18,15 +18,17 @@ server.get("/", (req, res) => {
   const app = renderToString(<App />);
 
   const html = `
+      <!DOCTYPE html>
       <html lang="en">
       <head>
-          <script src="app.js" async defer></script>
+          <script src="app.js" defer></script>
       </head>
       <body>
           <div id="root">${app}</div>
       </body>
       </html>
   `;
+
   res.send(html);
 });
 
