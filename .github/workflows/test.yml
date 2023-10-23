@@ -20,6 +20,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
+      - run: pnpm config --global set dedupe-peer-dependents=false
       - run: pnpm --filter=react-esi install
       - run: pnpm --filter=react-esi run build
       - run: pnpm --filter=react-esi run test
