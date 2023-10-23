@@ -1,0 +1,4 @@
+packages:
+  - "lib"
+  - "examples/*"
+  - "!**/test/**"

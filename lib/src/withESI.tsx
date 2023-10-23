@@ -5,7 +5,7 @@ import type {
   JSX,
   WeakValidationMap
 } from "react";
-import React, { Component } from "react";
+import { Component } from "react";
 
 declare global {
   interface Window {
@@ -24,7 +24,7 @@ interface IWithESIProps {
  * Higher Order Component generating a <esi:include> tag server-side,
  * and rendering the wrapped component client-side.
  */
-export default function withESI<P extends Record<PropertyKey, unknown>>(
+export default function withESI<P>(
   WrappedComponent: ComponentType<P>,
   fragmentID: string
 ): ComponentClass<IWithESIProps & P> {

@@ -7,21 +7,26 @@ services:
       - /var/lib/varnish/varnishd:exec
     ports:
       - "8080:80"
-    restart: always
+    restart: unless-stopped
     depends_on:
       - node
 
   node:
-    image: node:18
+    image: node:20
     working_dir: /home/node/app
-    user: node
+    # user: node
     init: true
     volumes:
-      - ./:/home/node/app
-    command: yarn dev
-    ports:
-      - "3000:3000"
+      - ../../:/home/node/app
+    command: corepack pnpm --filter esi-express dev
+    # ports:
+    #   - "3000:3000"
     environment:
       - NODE_ENV=development
       - REACT_ESI_SECRET=${REACT_ESI_SECRET:-ChangeMe}
-    restart: always
+    restart: unless-stopped
+
+volumes:
+  node_modules:
+  node_modules-lib:
+  node_modules-express:

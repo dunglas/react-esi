@@ -1,7 +1,13 @@
-import React from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 
-export default class MyFragment extends React.Component {
+interface MyFragmentProps {
+  greeting: string;
+  dataFromAnAPI?: string;
+}
+
+export default class MyFragment extends Component<MyFragmentProps> {
+  public static propTypes: PropTypes.InferProps<MyFragmentProps>;
   render() {
     return (
       <section>

@@ -1,5 +1,4 @@
-import React from "react";
-import withESI from "react-esi/lib/withESI";
+import withESI from "react-esi/withESI";
 import MyFragment from "../components/MyFragment";
 
 const MyFragmentESI = withESI(MyFragment, "MyFragment");

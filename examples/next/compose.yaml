@@ -16,10 +16,10 @@ services:
     working_dir: /home/node/app
     user: node
     volumes:
-      - ./:/home/node/app
-    command: yarn dev
+      - ../../:/home/node/app
+    command: pnpm dev
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       - NODE_ENV=development
       - REACT_ESI_SECRET=${REACT_ESI_SECRET:-secret}

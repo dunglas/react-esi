@@ -7,7 +7,7 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "plugin:@typescript-eslint/recommended",
     "prettier",
     "plugin:prettier/recommended"
@@ -29,5 +29,5 @@
       "version": "detect"
     }
   },
-  "ignorePatterns": ["node_modules/", "dist/", ".next/", "lib/"]
+  "ignorePatterns": ["node_modules/", "dist/", "lib/", ".next/"]
 }

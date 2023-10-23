@@ -2,7 +2,6 @@ import express from "express";
 import { path, serveFragment } from "react-esi/lib/server";
 import { renderToString } from "react-dom/server";
 import App from "./pages/App";
-import React from "react";
 
 const port = Number.parseInt(process.env.PORT || "3000", 10);
 

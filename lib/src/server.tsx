@@ -53,7 +53,12 @@ interface IServeFragmentOptions {
   pipeStream?: (stream: PipeableStream) => InstanceType<typeof Transform>;
 }
 
-type resolver<TProps = unknown> = (
+type resolver<
+  TProps =
+    | Record<string, unknown>
+    | Promise<unknown>
+    | Promise<Record<string, unknown>>
+> = (
   fragmentID: string,
   props: object,
   req: Request,

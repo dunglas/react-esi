@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - run: yarn build
-      - run: yarn test
-      - run: yarn lint
+      - run: pnpm --filter react-esi install --frozen-lockfile
+      - run: pnpm --filter react-esi build
+      - run: pnpm --filter react-esi test
+      - run: pnpm --filter react-esi lint
