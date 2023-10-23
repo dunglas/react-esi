@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
-      - run: pnpm --filter react-esi install
-      - run: pnpm --filter react-esi run build
-      - run: pnpm --filter react-esi run test
-      - run: pnpm --filter react-esi run lint
+      - run: pnpm --filter=react-esi install
+      - run: pnpm --filter=react-esi run build
+      - run: pnpm --filter=react-esi run test
+      - run: pnpm --filter=react-esi run lint
