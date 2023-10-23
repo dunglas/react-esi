@@ -14,13 +14,13 @@ jobs:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
         with:
-          version: 8.9.2
+          version: 8
       - uses: actions/setup-node@v3
 
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
       - run: pnpm --filter react-esi install
-      - run: pnpm --filter react-esi build
-      - run: pnpm --filter react-esi test
-      - run: pnpm --filter react-esi lint
+      - run: pnpm --filter react-esi run build
+      - run: pnpm --filter react-esi run test
+      - run: pnpm --filter react-esi run lint
