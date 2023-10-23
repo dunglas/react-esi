@@ -12,10 +12,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.9.2
       - uses: actions/setup-node@v3
+
         with:
           node-version: ${{ matrix.node-version }}
-      - run: corepack pnpm --filter react-esi install --frozen-lockfile
-      - run: corepack pnpm --filter react-esi build
-      - run: corepack pnpm --filter react-esi test
-      - run: corepack pnpm --filter react-esi lint
+          cache: "pnpm"
+      - run: pnpm --filter react-esi install
+      - run: pnpm --filter react-esi build
+      - run: pnpm --filter react-esi test
+      - run: pnpm --filter react-esi lint
