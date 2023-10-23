@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: pnpm --filter react-esi install --frozen-lockfile
-      - run: pnpm --filter react-esi build
-      - run: pnpm --filter react-esi test
-      - run: pnpm --filter react-esi lint
+      - run: corepack pnpm --filter react-esi install --frozen-lockfile
+      - run: corepack pnpm --filter react-esi build
+      - run: corepack pnpm --filter react-esi test
+      - run: corepack pnpm --filter react-esi lint
