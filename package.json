@@ -8,7 +8,8 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "prop-types": "^15.6.2"
+    "prop-types": "^15.6.2",
+    "react-esi": "github:gurnro/react-esi"
   },
   "peerDependencies": {
     "react": "^16.7.0 || ^17.0.0 || ^18.0.0"
