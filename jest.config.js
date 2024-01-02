@@ -5,5 +5,6 @@ module.exports = {
   },
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  testEnvironment: "jsdom"
+  testEnvironment: "jsdom",
+  setupFiles: ['./jest.polyfills.js'],
 };

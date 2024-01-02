@@ -1,12 +1,14 @@
 import crypto from "crypto";
 import { Request, Response } from "express";
 import React from "react";
-import { renderToNodeStream } from "react-dom/server";
+import { renderToString } from "react-dom/server";
 import { Readable, Transform, TransformCallback } from "stream";
 
+console.log("ESI_PATH :::::", process.env.REACT_ESI_PATH);
+
 export const path = process.env.REACT_ESI_PATH || "/_fragment";
-const secret =
-  process.env.REACT_ESI_SECRET || crypto.randomBytes(64).toString("hex");
+console.log("PATH:::::", path);
+const secret = process.env.REACT_ESI_SECRET || crypto.randomBytes(64).toString("hex");
 
 /**
  * Signs the ESI URL with a secret key using the HMAC-SHA256 algorithm.
@@ -63,6 +65,8 @@ export const createIncludeElement = (
   url.searchParams.append("fragment", fragmentID);
   url.searchParams.append("props", JSON.stringify(props));
   url.searchParams.append("sign", sign(url));
+
+  console.log("URL ::::", JSON.stringify(url));
 
   esiAt.src = url.pathname + url.search;
   let attrs = "";
@@ -168,14 +172,17 @@ export async function serveFragment<TProps>(
   scriptStream.pipe(res, { end: false });
 
   // Wrap the content in a div having the data-reactroot attribute, to be removed
-  const stream = renderToNodeStream(
+  const stringResult = renderToString(
     <div>
       <Component {...childProps} />
     </div>
   );
 
   const removeReactRootStream = new RemoveReactRoot();
-  stream.pipe(removeReactRootStream);
+  const s = new Readable();
+  s.push(stringResult);
+  s.push(null);
+  s.pipe(removeReactRootStream);
 
   const lastStream: NodeJS.ReadableStream = options.pipeStream
     ? options.pipeStream(removeReactRootStream)
