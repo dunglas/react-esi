@@ -6,9 +6,9 @@ backend node {
 }
 
 sub vcl_recv {
-    if (req.http.upgrade ~ "(?i)websocket") {
-        return (pipe);
-    }
+  if (req.http.upgrade ~ "(?i)websocket") {
+    return (pipe);
+  }
 
   # Announce ESI support to Node (optional)
   set req.http.Surrogate-Capability = "key=ESI/1.0";
@@ -23,8 +23,8 @@ sub vcl_backend_response {
 }
 
 sub vcl_pipe {
-    if (req.http.upgrade) {
-        set bereq.http.upgrade = req.http.upgrade;
-        set bereq.http.connection = req.http.connection;
-    }
+  if (req.http.upgrade) {
+    set bereq.http.upgrade = req.http.upgrade;
+    set bereq.http.connection = req.http.connection;
+  }
 }
