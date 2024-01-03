@@ -26,7 +26,6 @@
   "plugins": [
     "react", 
     "@typescript-eslint",
-    "@typescript-eslint",
     "jsdoc",
     "prefer-arrow"
   ],

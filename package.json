@@ -54,8 +54,9 @@
     "lint": "eslint --ext js,jsx,ts,tsx ./src",
     "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./src",
     "cs": "prettier --write \"src/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "test": "REACT_ESI_SECRET='f7ddf06659aadbcba0cdad4c927ac5bf38167d714e1a15cad13115e7e9d21a9d' REACT_ESI_PATH='/_custom' jest",
-    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
+    "test": "jest",
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "updateSnapshot": "jest --updateSnapshot"
   },
-  "version": "0.3.1"
+  "version": "0.3.2"
 }

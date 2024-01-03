@@ -37,6 +37,18 @@ Or using NPM:
 
     $ npm install react-esi
 
+## Testing
+
+Update snapshots
+
+    $ npm updateSnapshot
+
+Run tests
+
+    $ npm run test
+
+Tests do not work locally without a valid url to serve from, currently server.tsx has hardcoded value example.com does not run a local dev server for testing purposes.
+
 ## Usage
 
 React ESI provides a convenient [Higher Order Component](https://reactjs.org/docs/higher-order-components.html) that will:
