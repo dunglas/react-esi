@@ -1,6 +1,6 @@
 services:
   varnish:
-    image: varnish:7.3
+    image: varnish:7.4
     volumes:
       - ./default.vcl:/etc/varnish/default.vcl:ro
     tmpfs:
@@ -23,6 +23,5 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
-      - REACT_ESI_SECRET=secret
+      - REACT_ESI_SECRET=${REACT_ESI_SECRET:-ChangeMe}
     restart: always
-    
