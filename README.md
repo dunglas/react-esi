@@ -15,8 +15,8 @@ Because it is built on top of the [Edge Side Includes (ESI)](https://www.w3.org/
 React ESI natively supports most of the well-known cloud cache providers including [Cloudflare Workers](https://blog.cloudflare.com/edge-side-includes-with-cloudflare-workers/), [Akamai](https://www.akamai.com/us/en/support/esi.jsp) and [Fastly](https://docs.fastly.com/guides/performance-tuning/using-edge-side-includes).
 Of course, React ESI also supports the open source [Varnish cache server](https://varnish-cache.org/intro/index.html#intro) that you can use in your own infrastructure for free ([configuration example](https://github.com/zeit/next.js/blob/canary/examples/with-react-esi/docker/varnish/default.vcl)).
 
-Also, React ESI allows to specify of different Time To Live (TTL) per React component and generating the corresponding HTML asynchronously using a secure (signed) URL.  
-The cache server fetches and stores in the cache all the needed fragments (the HTML corresponding to every React component), builds the final page, and sends it to the browser.
+Also, React ESI allows the specification of different Time To Live (TTL) per React component and generates the corresponding HTML asynchronously using a secure (signed) URL.
+The cache server fetches and stores in the cache all the needed fragments (the HTML corresponding to every React component), builds the final page and sends it to the browser.
 React ESI also allows components to (re-)render client-side without any specific configuration.
 
 ![ESI example](https://raw.githubusercontent.com/varnish/Varnish-Book/3bd8894181f5e42f628967d04f40116498d1f7f2/ui/img/esi.png )
@@ -27,24 +27,24 @@ React ESI also allows components to (re-)render client-side without any specific
 
 ## Examples
 
-- [Next.js, Express and Varnish](https://github.com/dunglas/react-esi/tree/main/examples/next)
-- [React, Express and Varnish](https://github.com/dunglas/react-esi/tree/main/examples/express)
+- [Next.js, Express, and Varnish](https://github.com/dunglas/react-esi/tree/main/examples/next)
+- [React, Express, and Varnish](https://github.com/dunglas/react-esi/tree/main/examples/express)
 
 ## Install
 
-Using Yarn:
-
-    $ yarn add react-esi
-
-Or using NPM:
+Using NPM:
 
     $ npm install react-esi
+
+Or using Yarn:
+
+    $ yarn add react-esi
 
 ## Usage
 
 React ESI provides a convenient [Higher Order Component](https://reactjs.org/docs/higher-order-components.html) that will:
 
-- replace the wrapped component by an ESI tag server-side (don't worry React ESI also provides the tooling to generate the corresponding fragment);
+- replace the wrapped component with an ESI tag server-side (don't worry React ESI also provides the tooling to generate the corresponding fragment);
 - render the wrapped component client-side, and feed it with the server-side computed props (if any).
 
 React ESI automatically calls a `static async` method named `getInitialProps()` to populate the initial props of the component. Server-side, this method can access to the HTTP request and response, for instance, to set the `Cache-Control` header, or some [cache tags](https://api-platform.com/docs/core/performance/#enabling-the-built-in-http-cache-invalidation-system).
@@ -110,9 +110,9 @@ export default class MyFragment extends React.Component {
 }
 ```
 
-The initial props **must** be serializable using `JSON.stringify()`. Beware `Map`, `Set` and `Symbol`!
+The initial props **must** be serializable using `JSON.stringify()`. Beware `Map`, `Set`, and `Symbol`!
 
-Note: for convenience, `getInitialProps()` has the same signature than the Next.js one.
+Note: for convenience, `getInitialProps()` has the same signature as the Next.js one.
 However, it's a totally independent and standalone implementation (you don't need Next.js to use it).
 
 ### Serving the Fragments
@@ -124,7 +124,7 @@ Alternatively, here is a full example using [a Next.js server](https://github.co
 
 ## Features
 
-- Support Varnish, Cloudflare Workers, Akamai, Fastly and any other cache systems having ESI support
+- Support Varnish, Cloudflare Workers, Akamai, Fastly, and any other cache systems having ESI support
 - Written in TypeScript
 - Next.js-friendly API
 
