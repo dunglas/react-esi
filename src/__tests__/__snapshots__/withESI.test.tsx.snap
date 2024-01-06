@@ -22,7 +22,7 @@ exports[`server-side 1`] = `
 <div
   dangerouslySetInnerHTML={
     {
-      "__html": "<esi:include onerror="continue" src="/_custom?fragment=id&amp;props=%7B%22esi%22%3A%7B%22attrs%22%3A%7B%22onerror%22%3A%22continue%22%7D%7D%2C%22name%22%3A%22K%C3%A9vin%22%7D&amp;sign=d6fae1bccd077dedd3f0baea9fd24c2700b1879c7b6b04bcc69388e5fcc0b890" />",
+      "__html": "<esi:include onerror="continue" src="/_custom?fragment=id&amp;props=%7B%22esi%22%3A%7B%22attrs%22%3A%7B%22onerror%22%3A%22continue%22%7D%7D%2C%22name%22%3A%22K%C3%A9vin%22%7D&amp;sign=1efa040e803dba221ea6c99ce39a13d83d60af81c4fe3727bbae752571db0e4e" />",
     }
   }
 />

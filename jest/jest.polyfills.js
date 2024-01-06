@@ -8,18 +8,20 @@
  * Consider migrating to a more modern test runner if
  * you don't want to deal with this.
  */
- 
-const { TextDecoder, TextEncoder, ReadableStream } = require('node:util')
- 
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { TextDecoder, TextEncoder, ReadableStream } = require("node:util");
 Object.defineProperties(globalThis, {
   ReadableStream: { value: ReadableStream },
   TextDecoder: { value: TextDecoder },
-  TextEncoder: { value: TextEncoder },
-})
- 
-const { Blob, File } = require('node:buffer')
-const { fetch, Headers, FormData, Request, Response } = require('undici')
- 
+  TextEncoder: { value: TextEncoder }
+});
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { Blob, File } = require("node:buffer");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { fetch, Headers, FormData, Request, Response } = require("undici");
+
 Object.defineProperties(globalThis, {
   fetch: { value: fetch, writable: true },
   Blob: { value: Blob },
@@ -28,4 +30,4 @@ Object.defineProperties(globalThis, {
   FormData: { value: FormData },
   Request: { value: Request },
   Response: { value: Response },
-})
+});

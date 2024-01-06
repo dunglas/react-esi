@@ -4,7 +4,7 @@ import Stream from "stream";
 import request from "supertest";
 import { createIncludeElement, path, serveFragment } from "../server";
 
-describe('Run Tests', () => {
+describe("Run Tests", () => {
   beforeAll(() => {
     process.env.REACT_ESI_SECRET = "dummy";
     process.env.REACT_ESI_PATH = "/_custom";
