@@ -1,10 +1,11 @@
 import crypto from "crypto";
 import { Request, Response } from "express";
 import React from "react";
-import { renderToNodeStream } from "react-dom/server";
+import { renderToPipeableStream } from "react-dom/server";
 import { Readable, Transform, TransformCallback } from "stream";
 
 export const path = process.env.REACT_ESI_PATH || "/_fragment";
+
 const secret =
   process.env.REACT_ESI_SECRET || crypto.randomBytes(64).toString("hex");
 
@@ -125,8 +126,10 @@ export async function serveFragment<TProps>(
   resolve: resolver<TProps>,
   options: IServeFragmentOptions = {}
 ) {
-  const url = new URL(req.url, "http://example.com");
+  const url = new URL(req.url, "http://example.com"); // Change this for your actual server
   const expectedSign = url.searchParams.get("sign");
+
+  // console.log("URL ::: ", JSON.stringify(url));
 
   url.searchParams.delete("sign");
   if (sign(url) !== expectedSign) {
@@ -168,7 +171,7 @@ export async function serveFragment<TProps>(
   scriptStream.pipe(res, { end: false });
 
   // Wrap the content in a div having the data-reactroot attribute, to be removed
-  const stream = renderToNodeStream(
+  const stream = renderToPipeableStream(
     <div>
       <Component {...childProps} />
     </div>
