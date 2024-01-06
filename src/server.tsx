@@ -129,7 +129,7 @@ export async function serveFragment<TProps>(
   const url = new URL(req.url, "http://example.com"); // Change this for your actual server
   const expectedSign = url.searchParams.get("sign");
 
-  console.log("URL ::: ", JSON.stringify(url));
+  // console.log("URL ::: ", JSON.stringify(url));
 
   url.searchParams.delete("sign");
   if (sign(url) !== expectedSign) {
