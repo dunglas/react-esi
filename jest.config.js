@@ -10,6 +10,6 @@ module.exports = {
   setupFiles: [
     "./jest/jest.polyfills.js",
     "./jest/jest.envVars.js",
-    "./src/server.tsx",
+    "./src/server.tsx"
   ]
 };
