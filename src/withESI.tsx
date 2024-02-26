@@ -1,14 +1,16 @@
 import PropTypes from "prop-types";
-import React, { WeakValidationMap } from "react";
+import type {
+  ComponentClass,
+  ComponentType,
+  JSX,
+  WeakValidationMap
+} from "react";
+import React, { Component } from "react";
 
 declare global {
   interface Window {
     __REACT_ESI__: { [s: string]: object };
   }
-}
-
-interface IWebpackProcess extends NodeJS.Process {
-  browser?: boolean;
 }
 
 interface IWithESIProps {
@@ -18,15 +20,15 @@ interface IWithESIProps {
     };
   };
 }
-
 /**
- * Higher Order Component generating a <esi:include> tag server-side, and rendering the wrapped component client-side.
+ * Higher Order Component generating a <esi:include> tag server-side,
+ * and rendering the wrapped component client-side.
  */
-export default function withESI<P>(
-  WrappedComponent: React.ComponentType<P>,
+export default function withESI<P extends Record<PropertyKey, unknown>>(
+  WrappedComponent: ComponentType<P>,
   fragmentID: string
-): React.ComponentClass<IWithESIProps & P> {
-  return class WithESI extends React.Component<P & IWithESIProps> {
+): ComponentClass<IWithESIProps & P> {
+  return class WithESI extends Component<P & IWithESIProps> {
     public static WrappedComponent = WrappedComponent;
     public static displayName = `WithESI(${
       WrappedComponent.displayName || WrappedComponent.name || "Component"
@@ -48,11 +50,11 @@ export default function withESI<P>(
       this.esi = esi || {};
       this.state.childProps = childProps;
 
-      if (!(process as IWebpackProcess).browser) {
+      if (typeof window === "undefined") {
         return;
       }
 
-      if (window.__REACT_ESI__ && window.__REACT_ESI__[fragmentID]) {
+      if (window.__REACT_ESI__?.[fragmentID]) {
         // Inject server-side computed initial props
         this.state.childProps = {
           ...window.__REACT_ESI__[fragmentID],
@@ -62,8 +64,7 @@ export default function withESI<P>(
       }
 
       // TODO: add support for getServerSideProps
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if ((WrappedComponent as any).getInitialProps) {
+      if ("getInitialProps" in WrappedComponent) {
         // No server-side rendering for this component, getInitialProps will be called during componentDidMount
         this.state.initialChildPropsLoaded = false;
       }
@@ -86,29 +87,16 @@ export default function withESI<P>(
     }
 
     public render() {
-      if ((process as IWebpackProcess).browser) {
+      if (typeof window !== "undefined") {
         return (
-          <div>
-            <WrappedComponent
-              {...(this.state.childProps as React.JSX.IntrinsicAttributes & P)}
-            />
-          </div>
+          <WrappedComponent
+            {...(this.state.childProps as JSX.IntrinsicAttributes & P)}
+          />
         );
       }
-
       // Prevent Webpack and other bundlers to ship server.js
       const server = eval('require("./server")');
-      return (
-        <div
-          dangerouslySetInnerHTML={{
-            __html: server.createIncludeElement(
-              fragmentID,
-              this.props,
-              this.esi
-            )
-          }}
-        />
-      );
+      return server.createIncludeElement(fragmentID, this.props, this.esi);
     }
   };
 }

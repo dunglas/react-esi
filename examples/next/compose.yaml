@@ -1,0 +1,26 @@
+services:
+  varnish:
+    image: varnish:7.4
+    volumes:
+      - ./default.vcl:/etc/varnish/default.vcl:ro
+    tmpfs:
+      - /var/lib/varnish/varnishd:exec
+    ports:
+      - "8080:80"
+    restart: always
+    depends_on:
+      - node
+
+  node:
+    image: node:18
+    working_dir: /home/node/app
+    user: node
+    volumes:
+      - ./:/home/node/app
+    command: yarn dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - REACT_ESI_SECRET=${REACT_ESI_SECRET:-secret}
+    restart: always

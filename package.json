@@ -8,48 +8,77 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "prop-types": "^15.6.2"
+    "prop-types": "^15.8.1"
   },
   "peerDependencies": {
     "react": "^16.7.0 || ^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
-    "@types/express": "^4.16.1",
-    "@types/jest": "^24.0.0",
-    "@types/node": "^14.14.10",
-    "@types/react": "^16.8.2",
-    "@types/react-dom": "^16.8.0",
-    "@types/react-test-renderer": "^16.8.0",
-    "@types/supertest": "^2.0.7",
-    "@typescript-eslint/eslint-plugin": "^5.3.1",
-    "@typescript-eslint/parser": "^5.3.1",
-    "coveralls": "^3.0.2",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.26.1",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "express": "^4.16.4",
-    "jest": "^29.5.0",
-    "jest-environment-jsdom": "^29.5.0",
-    "prettier": "^2.4.1",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "react-test-renderer": "^16.8.1",
-    "supertest": "^3.4.2",
-    "ts-jest": "^29.1.0",
-    "typescript": "^4.4.4"
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.3",
+    "@types/node": "^18.17.4",
+    "@types/react": "^18.2.18",
+    "@types/react-dom": "^18.2.7",
+    "@types/react-test-renderer": "^18.0.0",
+    "@types/supertest": "^2.0.12",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.0",
+    "coveralls": "^3.1.1",
+    "eslint": "^8.47.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.28.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-react": "^7.33.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "express": "^4.18.2",
+    "jest": "^29.6.2",
+    "jest-environment-jsdom": "^29.6.2",
+    "prettier": "^3.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-test-renderer": "^18.2.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
   },
   "scripts": {
     "clean": "rm -rf lib/*",
     "build": "yarn run clean && yarn run tsc",
     "watch": "tsc -w",
-    "lint": "eslint --ext js,jsx,ts,tsx ./src",
-    "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./src",
-    "cs": "prettier --write \"src/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "lint": "eslint --ext js,jsx,ts,tsx",
+    "lint:fix": "eslint --fix --ext js,jsx,ts,tsx src examples",
+    "cs": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
     "test": "jest",
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
-  "version": "0.3.1"
+  "version": "0.3.1",
+  "exports": {
+    ".": {
+      "types": "./lib/withESI.d.ts",
+      "import": "./lib/withESI.js",
+      "require": "./lib/withESI.js"
+    },
+    "./lib/server": {
+      "types": "./lib/server.d.ts",
+      "import": "./lib/server.js",
+      "require": "./lib/server.js"
+    },
+    "./lib/withESI": {
+      "types": "./lib/withESI.d.ts",
+      "import": "./lib/withESI.js",
+      "require": "./lib/withESI.js"
+    },
+    "./server": {
+      "types": "./lib/server.d.ts",
+      "import": "./lib/server.js",
+      "require": "./lib/server.js"
+    },
+    "./withESI": {
+      "types": "./lib/withESI.d.ts",
+      "import": "./lib/withESI.js",
+      "require": "./lib/withESI.js"
+    }
+  }
 }
