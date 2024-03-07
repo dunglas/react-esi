@@ -4,12 +4,15 @@
     "strict": true,
 
     /* Modules */
-    "moduleResolution": "Node10",
-    "module": "CommonJS",
+    "rootDir": "./src/",
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "types": ["node"],
 
     /* Emit */
+    "declaration": true,
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "./dist/",
 
     /* Interop Constraints */
     "esModuleInterop": true,
@@ -22,5 +25,6 @@
     "target": "ES6",
     "lib": ["DOM", "ESNext"]
   },
-  "include": ["**/*.tsx"]
+  "include": ["src/entry-client.tsx"],
+  "exclude": ["node_modules"]
 }

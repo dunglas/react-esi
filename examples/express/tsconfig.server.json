@@ -4,23 +4,25 @@
     "strict": true,
 
     /* Modules */
+    "rootDir": "./src/",
     "moduleResolution": "Node10",
     "module": "CommonJS",
+    "types": ["node"],
 
     /* Emit */
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "./dist/",
+
+    /* Language and Environment */
+    "jsx": "react-jsx",
+    "lib": ["DOM", "ESNext"],
+    "target": "ES5",
 
     /* Interop Constraints */
     "esModuleInterop": true,
     "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
-
-    /* Language and Environment */
-    "jsx": "react-jsx",
-    "target": "ES6",
-    "lib": ["DOM", "ESNext"]
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["**/*.tsx"]
+  "include": ["src/server.tsx"]
 }

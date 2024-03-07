@@ -6,30 +6,34 @@
   "repository": "https://github.com/dunglas/react-esi/examples/express",
   "license": "MIT",
   "author": "Kévin Dunglas",
-  "main": "dist/app.js",
+  "main": "dist/server.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "esbuild src/main.jsx --bundle --outfile=dist/app.js",
-    "dev": "tsx src/server.jsx",
-    "postinstall": "corepack pnpm build",
-    "start": "cross-env NODE_ENV=production tsx src/server.jsx"
+    "clean": "rm -rf ./dist/",
+    "build:client": "node esbuild.config.mjs",
+    "build:server": "tsc --project tsconfig.server.json",
+    "build": "pnpm clean && pnpm build:client && pnpm build:server",
+    "start": "cross-env NODE_ENV=production node ./dist/server.js",
+    "dev": "tsx src/server.tsx"
   },
   "dependencies": {
-    "express": "^4.18.2",
+    "express": "^4.18.3",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-esi": "workspace:*"
   },
   "devDependencies": {
-    "@types/express": "^4.17.20",
-    "@types/node": "^18.17.4",
-    "@types/prop-types": "^15.7.9",
-    "@types/react": "^18.2.30",
-    "@types/react-dom": "^18.2.14",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.25",
+    "@types/prop-types": "^15.7.11",
+    "@types/react": "18.2.64",
+    "@types/react-dom": "^18.2.21",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.19.5",
-    "ts-node": "^10.9.1",
-    "tsx": "^3.14.0",
-    "typescript": "^5.2.2"
+    "esbuild": "^0.20.1",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
   }
 }
