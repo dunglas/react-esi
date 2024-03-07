@@ -1,12 +1,18 @@
-import { Component } from "react";
+import type { Response } from "express";
 import PropTypes from "prop-types";
+import React from "react";
 
 interface MyFragmentProps {
   greeting: string;
   dataFromAnAPI?: string;
 }
 
-export default class MyFragment extends Component<MyFragmentProps> {
+interface GetInitialProps {
+  props: MyFragmentProps;
+  res?: Response;
+}
+
+export default class MyFragment extends React.Component<MyFragmentProps> {
   public static propTypes: PropTypes.InferProps<MyFragmentProps>;
   render() {
     return (
@@ -19,7 +25,7 @@ export default class MyFragment extends Component<MyFragmentProps> {
     );
   }
 
-  static async getInitialProps({ props, res }) {
+  static async getInitialProps({ props, res }: GetInitialProps) {
     return new Promise((resolve) => {
       if (res) {
         // Set a TTL for this fragment
@@ -31,7 +37,7 @@ export default class MyFragment extends Component<MyFragmentProps> {
         () =>
           resolve({
             ...props, // Props coming from index.js, passed through the internal URL
-            dataFromAnAPI: "Hello there"
+            dataFromAnAPI: "Hello there",
           }),
         2000
       );
@@ -41,5 +47,5 @@ export default class MyFragment extends Component<MyFragmentProps> {
 
 MyFragment.propTypes = {
   greeting: PropTypes.string,
-  dataFromAnAPI: PropTypes.string
+  dataFromAnAPI: PropTypes.string,
 };
