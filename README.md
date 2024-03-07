@@ -19,7 +19,7 @@ Also, React ESI allows the specification of different Time To Live (TTL) per Rea
 The cache server fetches and stores in the cache all the needed fragments (the HTML corresponding to every React component), builds the final page and sends it to the browser.
 React ESI also allows components to (re-)render client-side without any specific configuration.
 
-![ESI example](https://raw.githubusercontent.com/varnish/Varnish-Book/3bd8894181f5e42f628967d04f40116498d1f7f2/ui/img/esi.png )
+![ESI example](https://raw.githubusercontent.com/varnish/Varnish-Book/3bd8894181f5e42f628967d04f40116498d1f7f2/ui/img/esi.png)
 
 > Schema from [The Varnish Book](https://info.varnish-software.com/resources/varnish-6-by-example-book)
 
@@ -101,7 +101,7 @@ export default class MyFragment extends React.Component {
         () =>
           resolve({
             ...props, // Props coming from index.js, passed through the internal URL
-            dataFromAnAPI: "Hello there"
+            dataFromAnAPI: "Hello there",
           }),
         2000
       );
@@ -120,7 +120,6 @@ However, it's a totally independent and standalone implementation (you don't nee
 To serve the fragments, React ESI provides a ready-to-use controller compatible with [Express](https://expressjs.com/), check out [the full example](https://github.com/dunglas/react-esi/tree/main/examples/express).
 
 Alternatively, here is a full example using [a Next.js server](https://github.com/dunglas/react-esi/tree/main/examples/next):
-
 
 ## Features
 

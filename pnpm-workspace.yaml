@@ -1,4 +1,3 @@
 packages:
   - "lib"
   - "examples/*"
-  - "!**/test/**"

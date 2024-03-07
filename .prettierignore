@@ -4,4 +4,4 @@
 **/node_modules
 **/.next
 **/dist
-**/lib/lib
+/lib/lib
