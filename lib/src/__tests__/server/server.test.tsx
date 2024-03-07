@@ -74,11 +74,11 @@ test("serveFragment with pipeStream option", async () => {
           },
           flush: (callback) => {
             callback(null, "<div>hi there</div>");
-          }
+          },
         });
         input.pipe(transformer);
         return transformer;
-      }
+      },
     })
   );
 
