@@ -1,23 +1,30 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "rootDir": "./src/",
-    "module": "CommonJS",
-    "esModuleInterop": true,
-    "outDir": "./lib/",
-    "sourceMap": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-    "strictFunctionTypes": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "types": ["jest", "node"],
+    /* Type Checking */
+    "strict": true,
+
+    /* Modules */
     "moduleResolution": "Node10",
-    "strict": false,
+    "module": "CommonJS",
+    "rootDir": "./src/",
+
+    /* Emit */
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./lib/",
+
+    /* Interop Constraints */
+    "esModuleInterop": true,
     "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+
+    /* Language and Environment */
     "jsx": "react-jsx",
-    "target": "ES5",
-    "declaration": true
+    "lib": ["DOM", "ESNext"],
+    "target": "ES6"
   },
   "include": ["./src/"]
 }
