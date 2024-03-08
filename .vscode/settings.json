@@ -7,8 +7,7 @@
   "testing.openTesting": "neverOpen",
   "eslint.workingDirectories": ["lib/", "examples/express/", "examples/next/"],
   "editor.codeActionsOnSave": {
-    "source.eslint.fixAll": "explicit",
-    "source.fixAll": "explicit"
+    "source.eslint.fixAll": "explicit"
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",

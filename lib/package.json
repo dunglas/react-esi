@@ -17,10 +17,16 @@
   },
   "author": "Kévin Dunglas",
   "homepage": "https://github.com/dunglas/react-esi#readme",
-  "funding": {
-    "type": "tidelift",
-    "url": "https://tidelift.com/subscription/pkg/npm-react-esi"
-  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/dunglas"
+    },
+    {
+      "type": "tidelift",
+      "url": "https://tidelift.com/subscription/pkg/npm-react-esi"
+    }
+  ],
   "main": "lib/withESI.js",
   "typings": "lib/withESI.d.ts",
   "scripts": {
