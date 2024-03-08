@@ -17,7 +17,7 @@ services:
     image: express-esi
     build:
       context: ../../
-      target: esi-express
+      target: express-prod
     user: node
     init: true
     command: ["node", "dist/server.js"]

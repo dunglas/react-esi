@@ -15,7 +15,7 @@ services:
     image: next-esi
     build:
       context: ../../
-      target: esi-next
+      target: next-prod
     user: node
     init: true
     # volumes:
