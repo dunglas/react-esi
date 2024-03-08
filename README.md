@@ -40,6 +40,10 @@ Or using Yarn:
 
     $ yarn add react-esi
 
+Or using PNPM:
+
+    $ pnpm add react-esi
+
 ## Usage
 
 React ESI provides a convenient [Higher Order Component](https://reactjs.org/docs/higher-order-components.html) that will:
@@ -57,7 +61,6 @@ If the method hasn't been called server-side, then it will be called client-side
 
 ```javascript
 // pages/App.jsx
-import React from "react";
 import withESI from "react-esi/lib/withESI";
 import MyFragment from "../components/MyFragment";
 
