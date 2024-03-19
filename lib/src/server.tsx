@@ -1,20 +1,21 @@
 import type { Request, Response } from "express";
-import { createHmac, randomBytes } from "node:crypto";
-import type { Transform } from "node:stream";
-import { Readable } from "node:stream";
+import crypto from "crypto";
+import type { Transform } from "stream";
+import { Readable } from "stream";
 import type { ComponentType } from "react";
 import React from "react";
 import type { PipeableStream } from "react-dom/server";
 import { renderToPipeableStream } from "react-dom/server";
 
 export const path = process.env.REACT_ESI_PATH || "/_fragment";
-const secret = process.env.REACT_ESI_SECRET || randomBytes(64).toString("hex");
+const secret =
+  process.env.REACT_ESI_SECRET || crypto.randomBytes(64).toString("hex");
 
 /**
  * Signs the ESI URL with a secret key using the HMAC-SHA256 algorithm.
  */
 function sign(url: URL) {
-  const hmac = createHmac("sha256", secret);
+  const hmac = crypto.createHmac("sha256", secret);
   hmac.update(url.pathname + url.search);
   return hmac.digest("hex");
 }
@@ -53,7 +54,12 @@ interface IServeFragmentOptions {
   pipeStream?: (stream: PipeableStream) => InstanceType<typeof Transform>;
 }
 
-type resolver<TProps = unknown> = (
+type Resolver<
+  TProps =
+    | Record<string, unknown>
+    | Promise<unknown>
+    | Promise<Record<string, unknown>>,
+> = (
   fragmentID: string,
   props: object,
   req: Request,
@@ -67,7 +73,7 @@ type resolver<TProps = unknown> = (
 export async function serveFragment<TProps>(
   req: Request,
   res: Response,
-  resolve: resolver<TProps>,
+  resolve: Resolver<TProps>,
   options: IServeFragmentOptions = {}
 ) {
   const url = new URL(req.url, "http://example.com");
@@ -95,7 +101,7 @@ export async function serveFragment<TProps>(
       ? await Component.getInitialProps({
           props: baseChildProps,
           req,
-          res
+          res,
         })
       : baseChildProps;
 

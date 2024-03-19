@@ -11,11 +11,23 @@ jobs:
     name: Run tests with Node.js ${{ matrix.node-version }}
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Setup node
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - run: yarn build
-      - run: yarn test
-      - run: yarn lint
+          cache: "pnpm"
+
+      - run: pnpm config --global set dedupe-peer-dependents=false
+      - run: pnpm --filter=react-esi install
+      - run: pnpm --filter=react-esi run lint
+      - run: pnpm --filter=react-esi run typecheck
+      - run: pnpm --filter=react-esi run build
+      - run: pnpm --filter=react-esi run test

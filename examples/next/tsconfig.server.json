@@ -1,16 +1,27 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "outDir": "dist",
-    "lib": ["es2019"],
-    "target": "es2019",
-    "isolatedModules": false,
-    "noEmit": false,
+    /* Type Checking */
+    "strict": true,
+
+    /* Modules */
+    "moduleResolution": "Node10",
+    "module": "CommonJS",
+
+    /* Emit */
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "./dist/",
+
+    /* Language and Environment */
     "jsx": "react-jsx",
-    "paths": {
-      "react-esi/*": ["../../src/*"]
-    }
+    "lib": ["DOM", "ES2019"],
+    "target": "ES2019",
+
+    /* Interop Constraints */
+    "esModuleInterop": true,
+    "isolatedModules": false,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["server.tsx", "../../src/*"]
+  "include": ["server.tsx", "components/*.tsx"]
 }

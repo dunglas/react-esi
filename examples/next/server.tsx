@@ -5,7 +5,8 @@ import { path, serveFragment } from "react-esi/lib/server";
 
 const port = Number.parseInt(process.env.PORT || "3000", 10);
 const dev = process.env.NODE_ENV !== "production";
-const app = next({ dev });
+const hostname = "localhost";
+const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
@@ -24,15 +25,36 @@ app.prepare().then(() => {
         return require(`./components/${fragmentID}`).default;
       });
     } catch (error) {
+      console.error({ error });
+
       res.status(500);
-      res.send(error.message);
+      res.send((error as Error).message);
     }
   });
 
   // Next.js routes
-  server.get("*", (req, res) => handle(req, res, parse(req.url!, true)));
+  server.get("*", async (req, res) => {
+    try {
+      const parsedUrl = parse(req.url, true);
 
-  server.listen(port, () => {
-    console.log(`> Ready on http://localhost:${port}`);
+      return handle(req, res, parsedUrl);
+    } catch (error) {
+      console.error("Error occurred handling", req.url, error);
+      res.statusCode = 500;
+      res.end("internal server error");
+    }
   });
+
+  server
+    .listen(port, () => {
+      console.log(
+        `> Server listening at http://localhost:${port} as ${
+          dev ? "development" : process.env.NODE_ENV
+        }`
+      );
+    })
+    .once("error", (err) => {
+      console.error(err);
+      process.exit(1);
+    });
 });

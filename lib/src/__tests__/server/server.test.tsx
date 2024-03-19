@@ -1,5 +1,4 @@
 import express from "express";
-import React from "react";
 import Stream from "stream";
 import request from "supertest";
 
@@ -75,11 +74,11 @@ test("serveFragment with pipeStream option", async () => {
           },
           flush: (callback) => {
             callback(null, "<div>hi there</div>");
-          }
+          },
         });
         input.pipe(transformer);
         return transformer;
-      }
+      },
     })
   );
 

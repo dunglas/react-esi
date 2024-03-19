@@ -1,4 +1,5 @@
 {
+  "root": true,
   "env": {
     "browser": true,
     "es2021": true,
@@ -8,9 +9,9 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "plugin:prettier/recommended"
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -20,7 +21,7 @@
     },
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "react/display-name": "off"
   },
@@ -29,5 +30,5 @@
       "version": "detect"
     }
   },
-  "ignorePatterns": ["node_modules/", "dist/", ".next/", "lib/"]
+  "ignorePatterns": ["node_modules", "dist", "lib/lib", ".next"]
 }

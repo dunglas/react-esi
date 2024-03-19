@@ -1,4 +1,3 @@
-import React from "react";
 import withESI from "react-esi/lib/withESI";
 import MyFragment from "../components/MyFragment";
 
