@@ -38,7 +38,7 @@ CMD [ "node", "dist/server.js" ]
 
 
 
-# Nextjs
+# Next.js
 FROM base AS next-deps
 WORKDIR /home/node/repo
 COPY --from=base-deps /home/node/repo ./
