@@ -1,31 +1,39 @@
 {
+  "name": "esi-express",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An example project to demonstrate usage of ESI with Express",
+  "repository": "https://github.com/dunglas/react-esi/examples/express",
+  "license": "MIT",
   "author": "Kévin Dunglas",
+  "main": "dist/server.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "clean": "rm -rf ./dist/",
+    "build:client": "node esbuild.config.mjs",
+    "build:server": "tsc --project tsconfig.server.json",
+    "build": "pnpm clean && pnpm build:client && pnpm build:server",
+    "start": "cross-env NODE_ENV=production node ./dist/server.js",
+    "dev": "tsx src/server.tsx"
+  },
   "dependencies": {
-    "express": "^4.18.2",
+    "express": "^4.18.3",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-esi": "latest"
+    "react-esi": "workspace:*"
   },
-  "description": "An example project to demonstrate usage of ESI with Express",
   "devDependencies": {
-    "@types/node": "^18.17.4",
-    "@types/react": "^18.2.21",
-    "@types/react-dom": "^18.2.7",
-    "esbuild": "^0.19.0",
-    "nodemon": "^3.0.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.1.6"
-  },
-  "license": "MIT",
-  "main": "index.js",
-  "name": "esi-express-example",
-  "repository": "https://github.com/dunglas/react-esi/examples/express",
-  "scripts": {
-    "dev": "nodemon",
-    "start": "cross-env NODE_ENV=production ts-node --project tsconfig.server.json src/server.jsx",
-    "build": "esbuild src/main.jsx --bundle --outfile=dist/app.js",
-    "postinstall": "yarn build"
-  },
-  "version": "1.0.0"
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.25",
+    "@types/prop-types": "^15.7.11",
+    "@types/react": "18.2.64",
+    "@types/react-dom": "^18.2.21",
+    "cross-env": "^7.0.3",
+    "esbuild": "^0.20.1",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
+  }
 }

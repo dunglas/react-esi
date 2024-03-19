@@ -1,0 +1,20 @@
+{
+  "jest.outputConfig": {
+    "clearOnRun": "none",
+    "revealOn": "demand",
+    "revealWithFocus": "none"
+  },
+  "testing.openTesting": "neverOpen",
+  "eslint.workingDirectories": ["lib/", "examples/express/", "examples/next/"],
+  "editor.codeActionsOnSave": {
+    "source.eslint.fixAll": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ]
+}

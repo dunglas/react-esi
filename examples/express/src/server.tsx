@@ -1,12 +1,13 @@
 import express from "express";
+import { join } from "node:path";
 import { path, serveFragment } from "react-esi/lib/server";
-import { renderToString } from "react-dom/server";
-import App from "./pages/App";
-import React from "react";
+import { SSRRender } from "./entry-server";
 
 const port = Number.parseInt(process.env.PORT || "3000", 10);
-
+const dev = process.env.NODE_ENV !== "production";
 const server = express();
+const app = SSRRender();
+
 server.use((req, res, next) => {
   // Send the Surrogate-Control header to announce ESI support to proxies
   // (optional with Varnish, depending of your config)
@@ -15,13 +16,11 @@ server.use((req, res, next) => {
 });
 
 server.get("/", (req, res) => {
-  const app = renderToString(<App />);
-
   const html = `
       <!DOCTYPE html>
       <html lang="en">
       <head>
-          <script src="app.js" defer></script>
+          <script src="/entry-client.js" type="module"></script>
       </head>
       <body>
           <div id="root">${app}</div>
@@ -47,8 +46,17 @@ server.get(path, (req, res) => {
 // ...
 // Other Express routes come here
 
-server.use(express.static("./dist"));
+server.use(express.static(join(__dirname, "../dist")));
 
-server.listen(port, () => {
-  console.log(`> Ready on http://localhost:${port}`);
-});
+server
+  .listen(port, () => {
+    console.log(
+      `> Server listening at http://localhost:${port} as ${
+        dev ? "development" : process.env.NODE_ENV
+      }`
+    );
+  })
+  .once("error", (err) => {
+    console.error(err);
+    process.exit(1);
+  });

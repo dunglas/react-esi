@@ -1,24 +1,33 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    /* Type Checking */
+    "strict": true,
+    /* Modules */
+    "moduleResolution": "Node10",
+    "module": "ESNext",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "allowSyntheticDefaultImports": true,
-    "incremental": true,
     "paths": {
-      "react-esi/*": ["../../src/*"]
-    }
+      "@/*": ["./*"]
+    },
+    /* Emit */
+    "noEmit": true,
+    /* JavaScript Support */
+    "allowJs": true,
+    /* Interop Constraints */
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    /* Language and Environment */
+    "jsx": "preserve",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "target": "ES6",
+    /* Projects */
+    "composite": true,
+    /* Completeness */
+    "skipLibCheck": true,
+    "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../../src/*"],
-  "exclude": ["node_modules"]
+  "include": ["next-env.d.ts", "**/*.ts*"],
+  "exclude": ["node_modules", "server.tsx"]
 }

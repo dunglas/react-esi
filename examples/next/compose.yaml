@@ -6,21 +6,23 @@ services:
     tmpfs:
       - /var/lib/varnish/varnishd:exec
     ports:
-      - "8080:80"
-    restart: always
+      - "8090:80"
+    restart: unless-stopped
     depends_on:
       - node
 
   node:
-    image: node:18
-    working_dir: /home/node/app
+    image: next-esi
+    build:
+      context: ../../
+      target: next-prod
     user: node
-    volumes:
-      - ./:/home/node/app
-    command: yarn dev
-    ports:
-      - "3000:3000"
+    init: true
+    # volumes:
+    #   - ../../:/home/node/app
+    expose:
+      - "3000"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
       - REACT_ESI_SECRET=${REACT_ESI_SECRET:-secret}
-    restart: always
+    restart: unless-stopped

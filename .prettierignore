@@ -3,3 +3,5 @@
 **/.hg
 **/node_modules
 **/.next
+**/dist
+/lib/lib

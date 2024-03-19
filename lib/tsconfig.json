@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     /* Type Checking */
     "strict": true,
@@ -6,10 +7,13 @@
     /* Modules */
     "moduleResolution": "Node10",
     "module": "CommonJS",
+    "rootDir": "./src/",
 
     /* Emit */
+    "declaration": true,
+    "declarationMap": true,
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "./lib/",
 
     /* Interop Constraints */
     "esModuleInterop": true,
@@ -19,8 +23,8 @@
 
     /* Language and Environment */
     "jsx": "react-jsx",
-    "target": "ES6",
-    "lib": ["DOM", "ESNext"]
+    "lib": ["DOM", "ESNext"],
+    "target": "ES6"
   },
-  "include": ["**/*.tsx"]
+  "include": ["./src/"]
 }

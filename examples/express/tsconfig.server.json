@@ -1,16 +1,28 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "outDir": "dist",
-    "lib": ["es2019"],
-    "target": "es2019",
-    "isolatedModules": false,
-    "noEmit": false,
+    /* Type Checking */
+    "strict": true,
+
+    /* Modules */
+    "rootDir": "./src/",
+    "moduleResolution": "Node10",
+    "module": "CommonJS",
+    "types": ["node"],
+
+    /* Emit */
+    "sourceMap": true,
+    "outDir": "./dist/",
+
+    /* Language and Environment */
     "jsx": "react-jsx",
-    "paths": {
-      "react-esi/*": ["../../src/*"]
-    }
+    "lib": ["DOM", "ESNext"],
+    "target": "ES5",
+
+    /* Interop Constraints */
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src/server.jsx", "../../src/*"]
+  "include": ["src/server.tsx"]
 }
